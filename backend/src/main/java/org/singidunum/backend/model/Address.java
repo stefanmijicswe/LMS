@@ -1,6 +1,5 @@
 package org.singidunum.backend.model;
 
-
 import jakarta.persistence.*;
 
 import java.util.List;
