@@ -5,6 +5,7 @@ import { LandingPage } from './pages/public/landing-page/landing-page';
 import { DashboardHome } from './pages/dashboard/dashboard-home/dashboard-home';
 import { About } from './pages/public/about/about';
 import { Faculties } from './pages/public/faculties/faculties';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
 
@@ -20,6 +21,7 @@ export const routes: Routes = [
     {
         path: 'app',
         component: DashboardLayout,
+        canActivate: [authGuard],
         children: [
             { path: '', component: DashboardHome },
         ]
