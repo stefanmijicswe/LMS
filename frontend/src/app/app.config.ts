@@ -5,7 +5,6 @@ import { provideKeycloak, includeBearerTokenInterceptor, createInterceptorCondit
 
 import { routes } from './app.routes';
 
-// Konfiguracija interceptor-a za dodavanje Bearer tokena na backend requeste
 const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /^http:\/\/localhost:8081/i,
   bearerPrefix: 'Bearer'

@@ -110,5 +110,14 @@ export class AuthService {
       console.warn('Failed to load from localStorage:', error);
     }
   }
+
+  async logout() {
+  this.clearUserData();
+  try {
+    await this.keycloak.logout({ redirectUri: window.location.origin });
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+}
 }
 
