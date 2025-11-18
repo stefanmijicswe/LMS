@@ -25,9 +25,23 @@ public class StudyProgramme {
 	@OneToMany(mappedBy = "studyProgramme")
 	private List<YearOfStudy> yearOfStudy;
 
+    @Column(nullable = true, length = 1000)
+    private String description;
+
 	public StudyProgramme() {}
 
-	public StudyProgramme(Long id, String name, Teacher coordinator, Faculty faculty, List<YearOfStudy> yearOfStudy) {
+    public StudyProgramme(Long id, String name, Teacher coordinator, Faculty faculty, List<YearOfStudy> yearOfStudy, String description) {
+        this.id = id;
+        this.name = name;
+        this.coordinator = coordinator;
+        this.faculty = faculty;
+        this.yearOfStudy = yearOfStudy;
+        this.description = description;
+    }
+
+
+
+    public StudyProgramme(Long id, String name, Teacher coordinator, Faculty faculty, List<YearOfStudy> yearOfStudy) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,7 +50,15 @@ public class StudyProgramme {
 		this.yearOfStudy = yearOfStudy;
 	}
 
-	public Long getId() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getId() {
 		return id;
 	}
 

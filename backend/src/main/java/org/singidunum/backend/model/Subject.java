@@ -52,6 +52,9 @@ public class Subject {
 	 @OneToMany(mappedBy = "subject")
 	 private List<SubjectRealisation> subjectRealisation;
 
+     @Column(nullable = true, length = 5000)
+     private String syllabus;
+
 	 public Subject() {}
 
 	 public Subject(Long id, String name, int ects, boolean mandatory, int numberOfLectures, int numberOfExercises,
@@ -75,7 +78,15 @@ public class Subject {
 		this.subjectRealisation = subjectRealisation;
 	 }
 
-	 public Long getId() {
+    public String getSyllabus() {
+        return syllabus;
+    }
+
+    public void setSyllabus(String syllabus) {
+        this.syllabus = syllabus;
+    }
+
+    public Long getId() {
 		 return id;
 	 }
 
