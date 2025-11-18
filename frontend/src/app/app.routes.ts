@@ -26,6 +26,7 @@ import { Students } from './pages/dashboard/students/students';
 import { OrganisationManagement } from './pages/dashboard/organisation-management/organisation-management';
 import { StudyProgrammesManagement } from './pages/dashboard/study-programmes-management/study-programmes-management';
 import { UserManagement } from './pages/dashboard/user-management/user-management';
+import { StudyProgrammes } from './pages/public/study-programmes/study-programmes';
 
 export const routes: Routes = [
 
@@ -36,6 +37,7 @@ export const routes: Routes = [
             { path: '', component: LandingPage },
             { path: 'about', component: About },
             { path: 'faculties', component: Faculties },
+            { path: 'study-programmes', component: StudyProgrammes }
         ]
     },
     {
