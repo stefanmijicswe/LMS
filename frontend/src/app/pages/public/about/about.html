@@ -1,1 +1,54 @@
-<p>about works!</p>
+<div class="about-container">
+    <h1>About Us</h1>
+    
+    @if (isLoading) {
+      <div>
+        <p>Loading universities...</p>
+      </div>
+    }
+    
+    @if (!isLoading && universities.length > 0) {
+      <div>
+        @for (university of universities; track university.id) {
+          <div>
+            <h2>{{ university.name }}</h2>
+
+            @if (university.foundingDate) {
+              <p>Founded: {{ university.foundingDate | date }}</p>
+            }
+
+            @if (university.address) {
+              <p>
+                Address: {{ university.address.streetName }} {{ university.address.streetNumber }}, 
+                {{ university.address.place.name }}, {{ university.address.place.country.name }}
+              </p>
+            }
+
+            @if (university.rector) {
+              <p>
+                Rector: {{ university.rector.name }} {{ university.rector.surname }}
+              </p>
+              @if (university.rector.biography) {
+                <p>{{ university.rector.biography }}</p>
+              }
+            }
+
+            @if (university.faculties && university.faculties.length > 0) {
+              <h3>Faculties:</h3>
+              <ul>
+                @for (faculty of university.faculties; track faculty.id) {
+                  <li>{{ faculty.name }}</li>
+                }
+              </ul>
+            }
+          </div>
+        }
+      </div>
+    }
+    
+    @if (!isLoading && universities.length === 0) {
+      <div>
+        <p>No university datafound.</p>
+      </div>
+    }
+  </div>
