@@ -28,6 +28,18 @@ public class Faculty {
 	@JoinColumn(name = "university_id")
 	private University university;
 
+    @Column(nullable = true, length = 1000)
+    private String description;
+
+    @Column(nullable = true, length = 100)
+    private String website;
+
+    @Column(nullable = true, length = 20)
+    private String phoneNumber;
+
+    @Column(nullable = true, length = 100)
+    private String officialEmail;
+
 	public Faculty() {}
 
 	public Faculty(Long id, String name, Address address, Teacher dean, List<StudyProgramme> studyProgramme,
@@ -41,7 +53,52 @@ public class Faculty {
 		this.university = university;
 	}
 
-	public Long getId() {
+    public Faculty(Long id, String name, Address address, Teacher dean, List<StudyProgramme> studyProgramme, University university, String description, String website, String phoneNumber, String officialEmail) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.dean = dean;
+        this.studyProgramme = studyProgramme;
+        this.university = university;
+        this.description = description;
+        this.website = website;
+        this.phoneNumber = phoneNumber;
+        this.officialEmail = officialEmail;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getOfficialEmail() {
+        return officialEmail;
+    }
+
+    public void setOfficialEmail(String officialEmail) {
+        this.officialEmail = officialEmail;
+    }
+
+    public Long getId() {
 		return id;
 	}
 

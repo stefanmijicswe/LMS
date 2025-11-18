@@ -1,7 +1,7 @@
 package org.singidunum.backend.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -12,7 +12,13 @@ public class YearOfStudy {
 	private Long id;
 	
 	@Column(nullable = false)
-	private Date year;
+	private LocalDate startDate;
+	
+	@Column(nullable = false)
+	private LocalDate endDate;
+	
+	@Column(nullable = false)
+	private Integer yearNumber;
     
     @ManyToOne
     @JoinColumn(name = "study_programme_id")
@@ -27,11 +33,13 @@ public class YearOfStudy {
 
 	public YearOfStudy() {}
 
-	public YearOfStudy(Long id, Date year, StudyProgramme studyProgramme, List<Subject> subjects,
+	public YearOfStudy(Long id, LocalDate startDate, LocalDate endDate, Integer yearNumber, StudyProgramme studyProgramme, List<Subject> subjects,
 			StudentOnYear studentOnYear) {
 		super();
 		this.id = id;
-		this.year = year;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.yearNumber = yearNumber;
 		this.studyProgramme = studyProgramme;
 		this.subjects = subjects;
 		this.studentOnYear = studentOnYear;
@@ -45,12 +53,20 @@ public class YearOfStudy {
 		this.id = id;
 	}
 
-	public Date getYear() {
-		return year;
+	public LocalDate getStartDate() {
+		return startDate;
 	}
 
-	public void setYear(Date year) {
-		this.year = year;
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
 	public StudyProgramme getStudyProgramme() {
@@ -75,6 +91,14 @@ public class YearOfStudy {
 
 	public void setStudentOnYear(StudentOnYear studentOnYear) {
 		this.studentOnYear = studentOnYear;
+	}
+
+	public Integer getYearNumber() {
+		return yearNumber;
+	}
+
+	public void setYearNumber(Integer yearNumber) {
+		this.yearNumber = yearNumber;
 	}
 
 	
