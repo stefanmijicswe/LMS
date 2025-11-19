@@ -1,1 +1,7 @@
-<p>faculties works!</p>
+<ul>
+    @for (faculty of faculties; track faculty.id) {
+        <li>
+            {{faculty.name}}
+        </li>
+    }
+</ul>

@@ -44,6 +44,8 @@
     width: 280px;
     text-align: center;
     padding: 16px;
+    cursor: pointer;
+    align-items: center;
 }
 
 .card mat-icon {
