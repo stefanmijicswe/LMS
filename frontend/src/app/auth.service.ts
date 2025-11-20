@@ -26,12 +26,12 @@ export class AuthService {
 
     effect(() => {
       const event = this.keycloakEventSignal();
-      
+
       if (event.type === KeycloakEventType.Ready) {
         const readyArgs = typeEventArgs<ReadyArgs>(event.args);
         if (readyArgs) this.loadUserData();
-      } else if (event.type === KeycloakEventType.AuthRefreshSuccess || 
-                 event.type === KeycloakEventType.AuthSuccess) {
+      } else if (event.type === KeycloakEventType.AuthRefreshSuccess ||
+        event.type === KeycloakEventType.AuthSuccess) {
         this.loadUserData();
       } else if (event.type === KeycloakEventType.AuthLogout) {
         this.clearUserData();
@@ -112,12 +112,24 @@ export class AuthService {
   }
 
   async logout() {
-  this.clearUserData();
-  try {
-    await this.keycloak.logout({ redirectUri: window.location.origin });
-  } catch (error) {
-    console.error('Logout error:', error);
+    this.clearUserData();
+    try {
+      await this.keycloak.logout({ redirectUri: window.location.origin });
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   }
-}
+
+  async login() {
+    await this.keycloak.login({
+      redirectUri: window.location.origin + '/app'
+    });
+  }
+
+  async register() {
+    await this.keycloak.register({
+      redirectUri: window.location.origin + '/app'
+    });
+  }
 }
 

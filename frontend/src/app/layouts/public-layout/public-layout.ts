@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { University } from '../../services/university';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-public-layout',
@@ -14,10 +15,19 @@ import { University } from '../../services/university';
 export class PublicLayout {
 
   universityName: string = 'University';
-  constructor(private universityService: University) {}
+  constructor(private universityService: University, private authService: AuthService) {}
+
 
   ngOnInit(): void {
     this.loadUniversityName();
+  }
+
+  async login() {
+    await this.authService.login();
+  }
+  
+  async register() {
+    await this.authService.register();
   }
 
   loadUniversityName(): void {
