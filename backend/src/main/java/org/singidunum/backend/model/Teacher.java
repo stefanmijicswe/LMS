@@ -8,16 +8,20 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
+
     @Column(nullable = false, unique = true, length = 13)
     private String pin;
 
     @Column(nullable = false, length = 1500)
     private String biography;
 
-    @Column(length =  100, nullable = false)
+    @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(length =  100, nullable = false)
+    @Column(length = 100, nullable = false)
     private String surname;
 
     @OneToOne(mappedBy = "rector")
@@ -26,110 +30,119 @@ public class Teacher {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
-    
+
     @OneToOne
     private StudyProgramme studyProgramme;
-    
+
     @OneToOne
     private Faculty faculty;
-    
+
     @OneToOne
     private TeacherInCourse teacherInCourse;
 
-    public Teacher() {}
+    public Teacher() {
+    }
 
-	public Teacher(Long id, String pin, String biography, String name, String surname, University university,
-			Address address, StudyProgramme studyProgramme, Faculty faculty, TeacherInCourse teacherInCourse) {
-		super();
-		this.id = id;
-		this.pin = pin;
-		this.biography = biography;
-		this.name = name;
-		this.surname = surname;
-		this.university = university;
-		this.address = address;
-		this.studyProgramme = studyProgramme;
-		this.faculty = faculty;
-		this.teacherInCourse = teacherInCourse;
-	}
+    public Teacher(Long id, User user, String pin, String biography, String name, String surname, University university,
+                   Address address, StudyProgramme studyProgramme, Faculty faculty, TeacherInCourse teacherInCourse) {
+        this.id = id;
+        this.user = user;
+        this.pin = pin;
+        this.biography = biography;
+        this.name = name;
+        this.surname = surname;
+        this.university = university;
+        this.address = address;
+        this.studyProgramme = studyProgramme;
+        this.faculty = faculty;
+        this.teacherInCourse = teacherInCourse;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getPin() {
-		return pin;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setPin(String pin) {
-		this.pin = pin;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public String getBiography() {
-		return biography;
-	}
+    public String getPin() {
+        return pin;
+    }
 
-	public void setBiography(String biography) {
-		this.biography = biography;
-	}
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getBiography() {
+        return biography;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
 
-	public String getSurname() {
-		return surname;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public University getUniversity() {
-		return university;
-	}
+    public String getSurname() {
+        return surname;
+    }
 
-	public void setUniversity(University university) {
-		this.university = university;
-	}
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public University getUniversity() {
+        return university;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public void setUniversity(University university) {
+        this.university = university;
+    }
 
-	public StudyProgramme getStudyProgramme() {
-		return studyProgramme;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public void setStudyProgramme(StudyProgramme studyProgramme) {
-		this.studyProgramme = studyProgramme;
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public Faculty getFaculty() {
-		return faculty;
-	}
+    public StudyProgramme getStudyProgramme() {
+        return studyProgramme;
+    }
 
-	public void setFaculty(Faculty faculty) {
-		this.faculty = faculty;
-	}
+    public void setStudyProgramme(StudyProgramme studyProgramme) {
+        this.studyProgramme = studyProgramme;
+    }
 
-	public TeacherInCourse getTeacherInCourse() {
-		return teacherInCourse;
-	}
+    public Faculty getFaculty() {
+        return faculty;
+    }
 
-	public void setTeacherInCourse(TeacherInCourse teacherInCourse) {
-		this.teacherInCourse = teacherInCourse;
-	}
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
+    public TeacherInCourse getTeacherInCourse() {
+        return teacherInCourse;
+    }
+
+    public void setTeacherInCourse(TeacherInCourse teacherInCourse) {
+        this.teacherInCourse = teacherInCourse;
+    }
 }

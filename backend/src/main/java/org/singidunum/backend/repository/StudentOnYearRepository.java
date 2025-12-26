@@ -4,6 +4,10 @@ import org.singidunum.backend.model.StudentOnYear;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.Optional;
+
 public interface StudentOnYearRepository extends CrudRepository<StudentOnYear, Long>, PagingAndSortingRepository<StudentOnYear, Long>{
+
+    Optional<StudentOnYear> findByStudentIdAndYearOfStudyId(Long studentId, Long yearOfStudyId);
 
 }
