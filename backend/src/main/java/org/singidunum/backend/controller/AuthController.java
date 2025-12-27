@@ -34,6 +34,7 @@ public class AuthController {
     public ResponseEntity<JwtDTO> signUp(@RequestBody SignUpDTO data) {
         User user = authService.signUp(data.getUsername(), data.getPassword());
 
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword())
         );
