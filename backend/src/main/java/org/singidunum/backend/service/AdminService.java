@@ -49,6 +49,7 @@ public class AdminService {
         User u = new User();
         u.setUsername(dto.getUsername());
         u.setPassword(passwordEncoder.encode(dto.getPassword()));
+        u.setActive(true);
         u.setRoles(List.of(roleUser, roleStudentService));
 
         User saved = userRepository.save(u);
@@ -85,6 +86,7 @@ public class AdminService {
         User u = new User();
         u.setUsername(dto.getUsername());
         u.setPassword(passwordEncoder.encode(dto.getPassword()));
+        u.setActive(true);
         u.setRoles(List.of(roleUser, roleProfessor));
 
         User savedUser = userRepository.save(u);

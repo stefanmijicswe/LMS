@@ -53,6 +53,9 @@ public class EnrollmentService {
                              Long addressId) {
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (!user.getActive()) {
+            throw new RuntimeException("User is inactive");
+        }
 
         Student student = user.getStudent();
         if (student == null) {

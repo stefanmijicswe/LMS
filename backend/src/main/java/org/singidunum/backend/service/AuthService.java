@@ -37,6 +37,7 @@ public class AuthService implements UserDetailsService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(rawPassword));
+        user.setActive(true);
 
 
         Role userRole = roleRepository.findByName("ROLE_USER")
@@ -52,8 +53,12 @@ public class AuthService implements UserDetailsService {
     }
 
     public User findDomainUserByUsername(String username) {
-        return userRepository.findByUsername(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        if (!user.getActive()) {
+            throw new UsernameNotFoundException("User is inactive: " + username);
+        }
+        return user;
     }
 
 
