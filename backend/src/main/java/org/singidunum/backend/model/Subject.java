@@ -27,13 +27,13 @@ public class Subject {
 	 private int numberOfExercises;
 	 
 	 @Column(nullable = true)
-	 private int otherTeachingTypes;
+	 private Integer otherTeachingTypes;
 	 
 	 @Column(nullable = true)
-	 private int research;
+	 private Integer research;
 	 
 	 @Column(nullable = true)
-	 private int otherClasses;
+	 private Integer otherClasses;
 	 
 	 @ManyToOne
 	 @JoinColumn(name = "prerequisite_id")
@@ -43,7 +43,7 @@ public class Subject {
 	 private List<Subject> dependentSubjects;
 	 
 	 @ManyToOne
-	 @JoinColumn(name = "year_of_study_id")
+	 @JoinColumn(name = "year_of_study_id", nullable = false)
 	 private YearOfStudy yearOfStudy;
 	 
 	 @OneToMany(mappedBy = "subject")
@@ -58,7 +58,7 @@ public class Subject {
 	 public Subject() {}
 
 	 public Subject(Long id, String name, int ects, boolean mandatory, int numberOfLectures, int numberOfExercises,
-			int otherTeachingTypes, int research, int otherClasses, Subject prerequisite,
+			Integer otherTeachingTypes, Integer research, Integer otherClasses, Subject prerequisite,
 			List<Subject> dependentSubjects, YearOfStudy yearOfStudy, List<Outcome> outcomes,
 			List<SubjectRealisation> subjectRealisation) {
 		super();
@@ -134,27 +134,27 @@ public class Subject {
 		 this.numberOfExercises = numberOfExercises;
 	 }
 
-	 public int getOtherTeachingTypes() {
+	 public Integer getOtherTeachingTypes() {
 		 return otherTeachingTypes;
 	 }
 
-	 public void setOtherTeachingTypes(int otherTeachingTypes) {
+	 public void setOtherTeachingTypes(Integer otherTeachingTypes) {
 		 this.otherTeachingTypes = otherTeachingTypes;
 	 }
 
-	 public int getResearch() {
+	 public Integer getResearch() {
 		 return research;
 	 }
 
-	 public void setResearch(int research) {
+	 public void setResearch(Integer research) {
 		 this.research = research;
 	 }
 
-	 public int getOtherClasses() {
+	 public Integer getOtherClasses() {
 		 return otherClasses;
 	 }
 
-	 public void setOtherClasses(int otherClasses) {
+	 public void setOtherClasses(Integer otherClasses) {
 		 this.otherClasses = otherClasses;
 	 }
 
