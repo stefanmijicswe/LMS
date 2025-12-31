@@ -1,0 +1,28 @@
+.activities-container {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.activity-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.activity-table th, .activity-table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.activity-table th {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.summary {
+  margin-top: 20px;
+}
+
+.summary p {
+  font-size: 1.1em;
+}

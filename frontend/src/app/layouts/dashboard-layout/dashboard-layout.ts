@@ -29,10 +29,10 @@ export class DashboardLayout {
   private authService = inject(AuthService);
   
   userRoles = this.authService.userRoles;
-  isAuthenticated = this.authService.isAuthenticated;
+  isAuthenticated = this.authService.isLoggedIn();
   
   hasRole(role: string): boolean {
-    return this.userRoles().includes(role);
+    return this.userRoles.includes(role);
   }
 
   async logout() {

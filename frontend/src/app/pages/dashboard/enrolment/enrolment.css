@@ -1,0 +1,14 @@
+.add-student-container {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.filter-field {
+  width: 300px;
+  margin-bottom: 16px;
+}
+
+table {
+  width: 100%;
+}
