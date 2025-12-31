@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { University } from '../../services/university';
 import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-public-layout',
@@ -14,6 +15,7 @@ import { AuthService } from '../../auth.service';
 })
 export class PublicLayout {
 
+  router = inject(Router);
   universityName: string = 'University';
   constructor(private universityService: University, private authService: AuthService) {}
 
@@ -22,12 +24,12 @@ export class PublicLayout {
     this.loadUniversityName();
   }
 
-  async login() {
-    await this.authService.login();
+  async rerouteToLoginPage() {
+    this.router.navigate(['/login']);
   }
   
-  async register() {
-    await this.authService.register();
+  async rerouteToRegisterPage() {
+    this.router.navigate(['/register']);
   }
 
   loadUniversityName(): void {

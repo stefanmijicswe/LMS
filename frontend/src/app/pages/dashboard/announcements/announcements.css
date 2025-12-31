@@ -1,0 +1,9 @@
+.announcement-card {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 8px;
+
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}

@@ -1,1 +1,8 @@
-<p>settings works!</p>
+<div class="username-container">
+  <a>Your username: {{authService.username}}</a>
+</div>
+<div class="settings-container">
+  <button mat-raised-button color="primary" (click)="openPasswordDialog()">
+    Change Password
+  </button>
+</div>

@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 420px;
+  margin: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.role-label {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.role-radio {
+  display: flex;
+  gap: 15px;
+}
+
+mat-form-field {
+  flex-grow: 1;
+}

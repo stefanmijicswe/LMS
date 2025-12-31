@@ -1,15 +1,27 @@
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { createAuthGuard, AuthGuardData } from 'keycloak-angular';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
-export const authGuard = createAuthGuard(async (route: ActivatedRouteSnapshot, state: RouterStateSnapshot, authData: AuthGuardData): Promise<boolean | UrlTree> => {
-  const { authenticated, keycloak } = authData;
+export const authGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  if (!authenticated) {
-    await keycloak.login({
-      redirectUri: window.location.origin + state.url
-    });
+  const requiredRoles = route.data['requiredRole'] as string[] | undefined;
+
+  if (authService.isLoggedIn()) {
+
+    if (!requiredRoles || requiredRoles.length === 0) {
+      return true;
+    }
+    const hasRequiredRole = requiredRoles.some(role => authService.hasRole(role));
+    if (hasRequiredRole) {
+      return true;
+    } else {
+      alert('You don\'t have the rights to access this page.');
+      return false;
+    }
+  } else {
+    router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     return false;
   }
-
-  return true;
-});
+};

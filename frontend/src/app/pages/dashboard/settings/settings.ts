@@ -1,11 +1,91 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { AuthService } from '../../../auth.service';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-settings',
-  imports: [],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogModule
+  ],
   templateUrl: './settings.html',
-  styleUrl: './settings.css',
+  styleUrls: ['./settings.css']
 })
 export class Settings {
+  authService = inject(AuthService); 
+  constructor(private dialog: MatDialog) {}
 
+  openPasswordDialog() {
+    this.dialog.open(PasswordDialogComponent, {
+      width: '380px'
+    });
+  }
+}
+
+@Component({
+  selector: 'password-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDialogModule
+  ],
+  template: `
+    <h2 mat-dialog-title>Change Password</h2>
+
+    <mat-dialog-content>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Current Password</mat-label>
+        <input matInput type="password" [(ngModel)]="form.current">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>New Password</mat-label>
+        <input matInput type="password" [(ngModel)]="form.newPass">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Confirm New Password</mat-label>
+        <input matInput type="password" [(ngModel)]="form.confirm">
+      </mat-form-field>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="close()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="submit()">Confirm</button>
+    </mat-dialog-actions>
+  `
+})
+export class PasswordDialogComponent {
+  form = {
+    current: '',
+    newPass: '',
+    confirm: ''
+  };
+
+  constructor(private dialogRef: MatDialogRef<PasswordDialogComponent>) {}
+
+  close() {
+    this.dialogRef.close();
+  }
+
+  submit() {
+    console.log('Password form:', this.form);
+    this.dialogRef.close(this.form);
+  }
 }

@@ -30,10 +30,9 @@ public class Student {
     private List<SubjectAttendance> subjectAttendance;
 
     @OneToMany
-    private List<StudentOnYear> studentOnYears;
-
-    public Student() {
-    }
+	private List<StudentOnYear> studentOnYears;
+    
+    public Student() {}
 
     public Student(Long id, User user, String name, String surname, String pin, Address address,
                    List<SubjectAttendance> subjectAttendance, List<StudentOnYear> studentOnYears) {
