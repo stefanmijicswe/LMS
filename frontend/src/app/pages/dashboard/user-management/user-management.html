@@ -1,1 +1,86 @@
-<p>user-management works!</p>
+<mat-card class="user-management-card">
+  <mat-card-title>User Management</mat-card-title>
+
+  <mat-card-content>
+
+    <div class="spinner-container" *ngIf="loading">
+      <mat-progress-spinner
+        diameter="40"
+        mode="indeterminate">
+      </mat-progress-spinner>
+    </div>
+
+    <div class="error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <table
+      mat-table
+      [dataSource]="users"
+      class="mat-elevation-z3"
+      *ngIf="!loading && users.length > 0">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Username</th>
+        <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="roles">
+        <th mat-header-cell *matHeaderCellDef>Roles</th>
+        <td mat-cell *matCellDef="let user">
+          <mat-chip-listbox>
+            <mat-chip
+              *ngFor="let role of user.roles"
+              color="primary"
+              selected>
+              {{ formatRole(role) }}
+            </mat-chip>
+          </mat-chip-listbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let user">
+          <button mat-button color="primary" (click)="startEdit(user)">Update</button>
+          <button mat-button color="warn" (click)="deleteUser(user.id)">Delete</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="empty" *ngIf="!loading && users.length === 0">
+      No users found.
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="editingUser" class="edit-form-card">
+  <mat-card-title>Edit User ID: {{ editingUser.id }}</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="saveUpdate(editingUser.id)">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput [(ngModel)]="updateUsername" name="username" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>New Password</mat-label>
+        <input matInput [(ngModel)]="updatePassword" name="password" type="password" required />
+      </mat-form-field>
+
+      <div class="button-row">
+        <button mat-flat-button color="primary" type="submit">Save</button>
+        <button mat-stroked-button type="button" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
