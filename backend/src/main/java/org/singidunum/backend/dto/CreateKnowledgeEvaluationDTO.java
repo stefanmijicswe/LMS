@@ -8,6 +8,7 @@ public class CreateKnowledgeEvaluationDTO {
     private Integer points;
     private Long evaluationTypeId;
     private Long subjectRealisationId;
+    private Long examinationPeriodId;
 
     public CreateKnowledgeEvaluationDTO() {}
 
@@ -49,5 +50,13 @@ public class CreateKnowledgeEvaluationDTO {
 
     public void setSubjectRealisationId(Long subjectRealisationId) {
         this.subjectRealisationId = subjectRealisationId;
+    }
+
+    public Long getExaminationPeriodId() {
+        return examinationPeriodId;
+    }
+
+    public void setExaminationPeriodId(Long examinationPeriodId) {
+        this.examinationPeriodId = examinationPeriodId;
     }
 }
