@@ -38,10 +38,15 @@ public class KnowledgeEvaluation {
 	@OneToMany(mappedBy = "knowledgeEvaluation")
 	private List<EvaluationInstrument> evaluationInstrument;
 
+    @ManyToOne
+    @JoinColumn(name = "examination_period_id")
+    private ExaminationPeriod examinationPeriod;
+
 	public KnowledgeEvaluation() {}
 
 	public KnowledgeEvaluation(Long id, Date startTime, Date endTime, int points, EvaluationType evaluationType,
-			SubjectRealisation subjectRealisation, List<Outcome> outcomes, List<Examination> examinations, List<EvaluationInstrument> evaluationInstrument) {
+			SubjectRealisation subjectRealisation, List<Outcome> outcomes, List<Examination> examinations, List<EvaluationInstrument> evaluationInstrument,
+			ExaminationPeriod examinationPeriod) {
 		super();
 		this.id = id;
 		this.startTime = startTime;
@@ -52,6 +57,7 @@ public class KnowledgeEvaluation {
 		this.outcomes = outcomes;
 		this.examinations = examinations;
 		this.evaluationInstrument = evaluationInstrument;
+		this.examinationPeriod = examinationPeriod;
 	}
 
 	public Long getId() {
@@ -124,5 +130,13 @@ public class KnowledgeEvaluation {
 
 	public void setEvaluationInstrument(List<EvaluationInstrument> evaluationInstrument) {
 		this.evaluationInstrument = evaluationInstrument;
+	}
+
+	public ExaminationPeriod getExaminationPeriod() {
+		return examinationPeriod;
+	}
+
+	public void setExaminationPeriod(ExaminationPeriod examinationPeriod) {
+		this.examinationPeriod = examinationPeriod;
 	}
 }

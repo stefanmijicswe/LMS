@@ -44,6 +44,15 @@ public class KnowledgeEvaluationController {
             knowledgeEvaluationDTO.setSubjectRealisationId(knowledgeEvaluation.getSubjectRealisation().getId());
         }
 
+        if (knowledgeEvaluation.getExaminationPeriod() != null) {
+            knowledgeEvaluationDTO.setExaminationPeriodId(knowledgeEvaluation.getExaminationPeriod().getId());
+        } else if (knowledgeEvaluation.getId() != null) {
+            KnowledgeEvaluation fullKnowledgeEvaluation = knowledgeEvaluationService.findById(knowledgeEvaluation.getId());
+            if (fullKnowledgeEvaluation != null && fullKnowledgeEvaluation.getExaminationPeriod() != null) {
+                knowledgeEvaluationDTO.setExaminationPeriodId(fullKnowledgeEvaluation.getExaminationPeriod().getId());
+            }
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(knowledgeEvaluationDTO);
     }
 
@@ -56,7 +65,8 @@ public class KnowledgeEvaluationController {
                 dto.getEndTime(),
                 dto.getPoints(),
                 dto.getEvaluationTypeId(),
-                dto.getSubjectRealisationId()
+                dto.getSubjectRealisationId(),
+                dto.getExaminationPeriodId()
         );
 
         KnowledgeEvaluationDTO knowledgeEvaluationDTO = new KnowledgeEvaluationDTO();
@@ -73,6 +83,10 @@ public class KnowledgeEvaluationController {
             knowledgeEvaluationDTO.setSubjectRealisationId(createdKnowledgeEvaluation.getSubjectRealisation().getId());
         }
 
+        if (dto.getExaminationPeriodId() != null) {
+            knowledgeEvaluationDTO.setExaminationPeriodId(dto.getExaminationPeriodId());
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(knowledgeEvaluationDTO);
     }
 
@@ -87,7 +101,8 @@ public class KnowledgeEvaluationController {
                 dto.getEndTime(),
                 dto.getPoints(),
                 dto.getEvaluationTypeId(),
-                dto.getSubjectRealisationId()
+                dto.getSubjectRealisationId(),
+                dto.getExaminationPeriodId()
         );
 
         KnowledgeEvaluationDTO knowledgeEvaluationDTO = new KnowledgeEvaluationDTO();
@@ -104,6 +119,12 @@ public class KnowledgeEvaluationController {
             knowledgeEvaluationDTO.setSubjectRealisationId(updatedKnowledgeEvaluation.getSubjectRealisation().getId());
         }
 
+        if (updatedKnowledgeEvaluation.getExaminationPeriod() != null) {
+            knowledgeEvaluationDTO.setExaminationPeriodId(updatedKnowledgeEvaluation.getExaminationPeriod().getId());
+        } else if (dto.getExaminationPeriodId() != null) {
+            knowledgeEvaluationDTO.setExaminationPeriodId(dto.getExaminationPeriodId());
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(knowledgeEvaluationDTO);
     }
 
@@ -114,12 +135,14 @@ public class KnowledgeEvaluationController {
         if (message != null) {
             if (message.contains("Knowledge Evaluation not found") ||
                     message.contains("Evaluation Type not found") ||
-                    message.contains("Subject Realisation not found")) {
+                    message.contains("Subject Realisation not found") ||
+                    message.contains("Examination Period not found")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ErrorResponseDTO(message));
             }
             if (message.contains("is required") ||
-                    message.contains("Start time must be before end time")) {
+                    message.contains("Start time must be before end time") ||
+                    message.contains("must be within examination period dates")) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ErrorResponseDTO(message));
             }
