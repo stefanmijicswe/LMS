@@ -4,24 +4,60 @@
   <div class="form-row">
     <label class="role-label">User Role:</label>
     <mat-radio-group [(ngModel)]="role" class="role-radio">
-      <mat-radio-button value="STUDENT_SERVICE">Student Service</mat-radio-button>
-      <mat-radio-button value="TEACHER">Teacher</mat-radio-button>
+      <mat-radio-button value="STUDENT_SERVICE">
+        Student Service
+      </mat-radio-button>
+      <mat-radio-button value="TEACHER">
+        Teacher
+      </mat-radio-button>
     </mat-radio-group>
   </div>
 
   <div class="form-row">
     <mat-form-field appearance="outline">
       <mat-label>Username</mat-label>
-      <input matInput [(ngModel)]="username">
+      <input matInput [(ngModel)]="username" />
     </mat-form-field>
   </div>
 
   <div class="form-row">
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput type="password" [(ngModel)]="password">
+      <input matInput type="password" [(ngModel)]="password" />
     </mat-form-field>
   </div>
 
-  <button mat-raised-button color="primary" (click)="createUser()">Create</button>
+  <ng-container *ngIf="role === 'TEACHER'">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>PIN</mat-label>
+        <input matInput [(ngModel)]="pin" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Biography</mat-label>
+        <textarea matInput rows="3" [(ngModel)]="biography"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="name" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Surname</mat-label>
+        <input matInput [(ngModel)]="surname" />
+      </mat-form-field>
+    </div>
+  </ng-container>
+
+  <button mat-raised-button color="primary" (click)="createUser()">
+    Create
+  </button>
 </div>
