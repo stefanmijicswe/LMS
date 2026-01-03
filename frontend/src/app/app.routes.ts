@@ -54,11 +54,11 @@ export const routes: Routes = [
             { path: 'subjects', component: Subjects, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_STUDENT'] }},
             { path: 'activities',component: Activities,canActivate: [authGuard, ],data: { requiredRole: ['ROLE_STUDENT'] }},
 
-            { path: 'announcement', component: Announcement, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_TEACHER'] }},
-            { path: 'syllabus', component: Syllabus, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_TEACHER'] }},
-            { path: 'students', component: Students, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_TEACHER'] }},
-            { path: 'courses', component: Courses, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_TEACHER'] }},
-            { path: 'grading', component: Grading, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_TEACHER'] }},
+            { path: 'announcement', component: Announcement, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_PROFESSOR'] }},
+            { path: 'syllabus', component: Syllabus, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_PROFESSOR'] }},
+            { path: 'students', component: Students, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_PROFESSOR'] }},
+            { path: 'courses', component: Courses, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_PROFESSOR'] }},
+            { path: 'grading', component: Grading, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_PROFESSOR'] }},
 
             { path: 'enrolment', component: Enrolment, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] }},
             { path: 'documents', component: Documents, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] }},

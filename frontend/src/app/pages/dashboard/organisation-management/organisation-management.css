@@ -1,0 +1,17 @@
+.container {
+  padding: 16px;
+}
+
+.title {
+  margin: 24px 0 16px;
+  font-weight: 500;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+input {
+  width: 100%;
+}
