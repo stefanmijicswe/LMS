@@ -1,0 +1,31 @@
+@if (isLoading) {
+  <div class="loading">Loading subject...</div>
+}
+
+@if (error) {
+  <div class="error">{{ error }}</div>
+}
+
+@if (!isLoading && subject) {
+  <section class="page">
+    <a routerLink="/faculties" class="back-link">
+      ← Back
+    </a>
+
+    <div class="card">
+      <h1 class="card-title">{{ subject.name }}</h1>
+
+      <div class="meta">
+        <div><strong>ECTS:</strong> {{ subject.ects }}</div>
+      </div>
+
+      @if (subject.syllabus) {
+        <div class="syllabus-section">
+          <h2 class="section-title">Syllabus</h2>
+          <p class="syllabus-text">{{ subject.syllabus }}</p>
+        </div>
+      }
+    </div>
+  </section>
+}
+

@@ -37,7 +37,7 @@
               <h3>Faculties:</h3>
               <ul>
                 @for (faculty of university.faculties; track faculty.id) {
-                  <li>{{ faculty.name }}</li>
+                  <li><a [routerLink]="['/faculties', faculty.id]">{{ faculty.name }}</a></li>
                 }
               </ul>
             }

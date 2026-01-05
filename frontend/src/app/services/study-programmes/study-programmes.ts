@@ -14,5 +14,9 @@ export class StudyProgrammes {
   getAllStudyProgrammes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/study-programmes`);
   }
+
+  getStudyProgrammeById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/study-programmes/${id}`);
+  }
   
 }
