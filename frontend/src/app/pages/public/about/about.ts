@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { University } from '../../../services/university';
 
 @Component({
   selector: 'app-about',
-  imports: [DatePipe],
+  imports: [DatePipe, RouterModule],
   templateUrl: './about.html',
   styleUrl: './about.css',
 })
