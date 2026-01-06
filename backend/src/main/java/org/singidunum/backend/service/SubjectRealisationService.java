@@ -7,6 +7,8 @@ import org.singidunum.backend.repository.SubjectRealisationRepository;
 import org.singidunum.backend.repository.SubjectRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SubjectRealisationService {
 
@@ -45,6 +47,13 @@ public class SubjectRealisationService {
         SubjectRealisation subjectRealisation = new SubjectRealisation();
         subjectRealisation.setSubject(subject);
         return subjectRealisationRepository.save(subjectRealisation);
+    }
+
+    public Iterable<SubjectRealisation> findByStudyProgrammeId(Long studyProgrammeId) {
+        if (studyProgrammeId == null) {
+            throw new RuntimeException("Study Programme ID is required");
+        }
+        return subjectRealisationRepository.findBySubject_YearOfStudy_StudyProgramme_Id(studyProgrammeId);
     }
 
     @Transactional

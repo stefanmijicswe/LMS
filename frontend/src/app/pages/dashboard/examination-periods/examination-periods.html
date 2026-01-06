@@ -1,0 +1,71 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>Create Examination Period</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="createExaminationPeriod()">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Name</mat-label>
+          <input matInput [(ngModel)]="form.name" name="name" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startPicker" [(ngModel)]="form.startDate" name="startDate" required>
+          <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endPicker" [(ngModel)]="form.endDate" name="endDate" required>
+          <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-checkbox [(ngModel)]="form.active" name="active" style="margin-bottom: 16px; display: block;">Active</mat-checkbox>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="isLoading || !form.name || !form.startDate || !form.endDate">
+          {{ isLoading ? 'Creating...' : 'Create Examination Period' }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card style="margin-top: 20px;">
+    <mat-card-title>Examination Periods</mat-card-title>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z0" *ngIf="!isLoadingList">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let period">{{ period.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef>Start Date</th>
+          <td mat-cell *matCellDef="let period">{{ formatDateDisplay(period.startDate) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef>End Date</th>
+          <td mat-cell *matCellDef="let period">{{ formatDateDisplay(period.endDate) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="active">
+          <th mat-header-cell *matHeaderCellDef>Active</th>
+          <td mat-cell *matCellDef="let period">{{ period.active ? 'Yes' : 'No' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let period">
+            <button mat-button color="primary" (click)="toggleActive(period)">Edit</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <div *ngIf="isLoadingList">Loading...</div>
+    </mat-card-content>
+  </mat-card>
+</div>

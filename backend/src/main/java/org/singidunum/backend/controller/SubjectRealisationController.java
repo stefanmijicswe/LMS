@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/subject-realisations")
 @PreAuthorize("hasRole('ADMIN') or hasRole('STUDENT_SERVICE')")
@@ -20,6 +23,35 @@ public class SubjectRealisationController {
 
     public SubjectRealisationController(SubjectRealisationService subjectRealisationService) {
         this.subjectRealisationService = subjectRealisationService;
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<SubjectRealisationDTO>> getAllSubjectRealisations(
+            @RequestParam(required = false) Long studyProgrammeId) {
+
+        Iterable<SubjectRealisation> subjectRealisations;
+
+        if (studyProgrammeId != null) {
+            subjectRealisations = subjectRealisationService.findByStudyProgrammeId(studyProgrammeId);
+        } else {
+            subjectRealisations = subjectRealisationService.findAll();
+        }
+
+        List<SubjectRealisationDTO> subjectRealisationDTOs = new ArrayList<>();
+        for (SubjectRealisation subjectRealisation : subjectRealisations) {
+            SubjectRealisationDTO subjectRealisationDTO = new SubjectRealisationDTO();
+            subjectRealisationDTO.setId(subjectRealisation.getId());
+            
+            if (subjectRealisation.getSubject() != null) {
+                subjectRealisationDTO.setSubjectId(subjectRealisation.getSubject().getId());
+                subjectRealisationDTO.setSubjectName(subjectRealisation.getSubject().getName());
+            }
+            
+            subjectRealisationDTOs.add(subjectRealisationDTO);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(subjectRealisationDTOs);
     }
 
 
@@ -36,6 +68,7 @@ public class SubjectRealisationController {
 
         if (subjectRealisation.getSubject() != null) {
             subjectRealisationDTO.setSubjectId(subjectRealisation.getSubject().getId());
+            subjectRealisationDTO.setSubjectName(subjectRealisation.getSubject().getName());
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(subjectRealisationDTO);
@@ -54,6 +87,7 @@ public class SubjectRealisationController {
 
         if (createdSubjectRealisation.getSubject() != null) {
             subjectRealisationDTO.setSubjectId(createdSubjectRealisation.getSubject().getId());
+            subjectRealisationDTO.setSubjectName(createdSubjectRealisation.getSubject().getName());
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(subjectRealisationDTO);
@@ -74,6 +108,7 @@ public class SubjectRealisationController {
 
         if (updatedSubjectRealisation.getSubject() != null) {
             subjectRealisationDTO.setSubjectId(updatedSubjectRealisation.getSubject().getId());
+            subjectRealisationDTO.setSubjectName(updatedSubjectRealisation.getSubject().getName());
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(subjectRealisationDTO);

@@ -39,7 +39,8 @@ public class PublicController {
                 teacher.getId(),
                 teacher.getName(),
                 teacher.getSurname(),
-                teacher.getBiography()
+                teacher.getBiography(),
+                teacher.getUser() != null ? teacher.getUser().getId() : null
         );
 
         return teacherDTO;

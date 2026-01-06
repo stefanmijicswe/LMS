@@ -29,58 +29,63 @@ import { Students } from './pages/dashboard/students/students';
 import { OrganisationManagement } from './pages/dashboard/organisation-management/organisation-management';
 import { StudyProgrammesManagement } from './pages/dashboard/study-programmes-management/study-programmes-management';
 import { UserManagement } from './pages/dashboard/user-management/user-management';
+import { TeacherAssignment } from './pages/dashboard/teacher-assignment/teacher-assignment';
+import { SubjectRealisations } from './pages/dashboard/subject-realisations/subject-realisations';
+import { ExaminationPeriods } from './pages/dashboard/examination-periods/examination-periods';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: PublicLayout,
-    children: [
-      { path: '', component: LandingPage },
-      { path: 'about', component: About },
+    {
+        path: '',
+        component: PublicLayout,
+        children: [
+            { path: '', component: LandingPage },
+            { path: 'about', component: About },
 
-      { path: 'faculties', component: Faculties },
-      { path: 'faculties/:facultyId', component: Faculties },
-      { path: 'faculties/:facultyId/study-programmes/:studyProgrammeId', component: Faculties },
+            { path: 'faculties', component: Faculties },
+            { path: 'faculties/:facultyId', component: Faculties },
+            { path: 'faculties/:facultyId/study-programmes/:studyProgrammeId', component: Faculties },
 
-      { path: 'study-programmes', component: StudyProgrammes },
-      { path: 'study-programmes/:id', component: StudyProgrammes },
+            { path: 'study-programmes', component: StudyProgrammes },
+            { path: 'study-programmes/:id', component: StudyProgrammes },
 
-      { path: 'subject/:id', component: Subject },
+            { path: 'subject/:id', component: Subject },
 
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-    ]
-  },
-  {
-    path: 'app',
-    component: DashboardLayout,
-    canActivate: [authGuard],
-    children: [
-      { path: '', component: DashboardHome },
+            { path: 'login', component: LoginComponent },
+            { path: 'register', component: RegisterComponent },
+        ]
+    },
+    {
+        path: 'app',
+        component: DashboardLayout,
+        canActivate: [authGuard],
+        children: [
+            { path: '', component: DashboardHome },
 
-      { path: 'notifications', component: Notifications, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] }},
-      { path: 'subjects', component: Subjects, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] }},
-      { path: 'activities', component: Activities, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] }},
+            { path: 'staff-management', component: StaffManagement, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'organisation-management', component: OrganisationManagement, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'study-programmes-management', component: StudyProgrammesManagement, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'user-management', component: UserManagement, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'teacher-assignment', component: TeacherAssignment, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'subject-realisations', component: SubjectRealisations, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'examination-periods', component: ExaminationPeriods, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'notifications', component: Notifications, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
+            { path: 'subjects', component: Subjects, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
+            { path: 'activities', component: Activities, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
 
-      { path: 'announcement', component: Announcement, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] }},
-      { path: 'syllabus', component: Syllabus, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] }},
-      { path: 'students', component: Students, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] }},
-      { path: 'courses', component: Courses, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] }},
-      { path: 'grading', component: Grading, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] }},
+            { path: 'announcement', component: Announcement, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
+            { path: 'syllabus', component: Syllabus, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
+            { path: 'students', component: Students, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
+            { path: 'courses', component: Courses, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
+            { path: 'grading', component: Grading, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
 
-      { path: 'enrolment', component: Enrolment, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] }},
-      { path: 'documents', component: Documents, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] }},
-      { path: 'schedule', component: Schedule, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] }},
-      { path: 'library', component: Library, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] }},
-      { path: 'supplies', component: Supplies, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] }},
-      { path: 'announcements', component: Announcements, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] }},
+            { path: 'enrolment', component: Enrolment, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
+            { path: 'documents', component: Documents, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
+            { path: 'schedule', component: Schedule, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
+            { path: 'library', component: Library, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
+            { path: 'supplies', component: Supplies, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
+            { path: 'announcements', component: Announcements, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
 
-      { path: 'staff-management', component: StaffManagement, canActivate: [authGuard], data: { requiredRole: ['ROLE_ADMIN'] }},
-      { path: 'organisation-management', component: OrganisationManagement, canActivate: [authGuard], data: { requiredRole: ['ROLE_ADMIN'] }},
-      { path: 'study-programmes-management', component: StudyProgrammesManagement, canActivate: [authGuard], data: { requiredRole: ['ROLE_ADMIN'] }},
-      { path: 'user-management', component: UserManagement, canActivate: [authGuard], data: { requiredRole: ['ROLE_ADMIN'] }},
-
-      { path: 'settings', component: Settings, canActivate: [authGuard] }
-    ]
-  }
+            { path: 'settings', component: Settings, canActivate: [authGuard] }
+        ]
+    }
 ];

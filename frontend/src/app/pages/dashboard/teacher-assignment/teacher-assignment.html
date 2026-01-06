@@ -1,0 +1,56 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>Assign Teacher to Course</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="assignTeacher()">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Teacher</mat-label>
+          <mat-select [(ngModel)]="form.teacherId" name="teacherId" [disabled]="isLoadingTeachers" required>
+            <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">
+              {{ teacher.name }} {{ teacher.surname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Study Programme</mat-label>
+          <mat-select [(ngModel)]="selectedStudyProgrammeId" name="studyProgrammeId" 
+                      (selectionChange)="onStudyProgrammeChange()" 
+                      [disabled]="isLoadingStudyProgrammes">
+            <mat-option [value]="null">All Study Programmes</mat-option>
+            <mat-option *ngFor="let sp of studyProgrammes" [value]="sp.id">
+              {{ sp.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Subject Realisation</mat-label>
+          <mat-select [(ngModel)]="form.subjectRealisationId" name="subjectRealisationId" [disabled]="isLoadingSubjectRealisations" required>
+            <mat-option *ngFor="let subjectRealisation of subjectRealisations" [value]="subjectRealisation.id">
+              {{ subjectRealisation.subjectName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Teaching Type</mat-label>
+          <mat-select [(ngModel)]="form.teachingTypeId" name="teachingTypeId" [disabled]="isLoadingTeachingTypes" required>
+            <mat-option *ngFor="let teachingType of teachingTypes" [value]="teachingType.id">
+              {{ teachingType.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Number of Classes</mat-label>
+          <input matInput type="number" [(ngModel)]="form.numberOfClasses" name="numberOfClasses" required>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
+          {{ isLoading ? 'Assigning...' : 'Assign Teacher' }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

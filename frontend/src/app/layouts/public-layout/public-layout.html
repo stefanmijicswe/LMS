@@ -6,6 +6,7 @@
             <a mat-button routerLink="/about">About</a>
             <a mat-button routerLink="/faculties">Faculties</a>
             <a mat-button routerLink="/study-programmes">Study programmes</a>
+            <a *ngIf="isLoggedIn()" mat-button routerLink="/app">Go to dashboard</a>
             <a mat-button (click)="rerouteToRegisterPage()">Register</a>
             <a mat-button (click)="rerouteToLoginPage()">Login</a>
         </nav>

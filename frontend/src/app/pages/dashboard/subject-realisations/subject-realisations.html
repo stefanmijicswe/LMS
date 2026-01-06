@@ -1,0 +1,30 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>Create Subject Realisation</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="createSubjectRealisation()">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Study Programme</mat-label>
+          <mat-select [(ngModel)]="form.studyProgrammeId" name="studyProgrammeId" (selectionChange)="onStudyProgrammeChange()" required>
+            <mat-option *ngFor="let sp of studyProgrammes" [value]="sp.id">
+              {{ sp.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Subject</mat-label>
+          <mat-select [(ngModel)]="form.subjectId" name="subjectId" [disabled]="!form.studyProgrammeId || isLoading" required>
+            <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+              {{ subject.name }} ({{ subject.ects }} ECTS)
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="isLoading || !form.subjectId">
+          {{ isLoading ? 'Creating...' : 'Create Subject Realisation' }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
