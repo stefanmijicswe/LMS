@@ -1,7 +1,86 @@
-<ul>
-    @for (faculty of faculties; track faculty.id) {
-        <li>
-            {{faculty.name}}
-        </li>
-    }
-</ul>
+<div class="faculty-list-container">
+  <div *ngIf="isLoading" class="loading">Loading faculties...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <ul *ngIf="!isLoading && faculties.length > 0 && !selectedFaculty">
+    <li *ngFor="let faculty of faculties; trackBy: trackById">
+      <a href="#" (click)="viewFaculty(faculty); $event.preventDefault()">
+        {{ faculty.name }}
+      </a>
+    </li>
+  </ul>
+
+  <div *ngIf="!isLoading && faculties.length === 0">No faculties found.</div>
+
+  <div *ngIf="selectedFaculty && !selectedProgramme" class="faculty-detail">
+    <h2>{{ selectedFaculty.name }}</h2>
+    <p>{{ selectedFaculty.description }}</p>
+
+    <h3>Contact</h3>
+    <p>Phone: {{ selectedFaculty.phoneNumber }}</p>
+    <p>Email: <a href="mailto:{{ selectedFaculty.officialEmail }}">{{ selectedFaculty.officialEmail }}</a></p>
+    <p>Website: <a href="{{ selectedFaculty.website }}" target="_blank">{{ selectedFaculty.website }}</a></p>
+
+    <h3>Address</h3>
+    <p>
+      {{ selectedFaculty.address.streetName }} {{ selectedFaculty.address.streetNumber }},<br />
+      {{ selectedFaculty.address.place.name }}, {{ selectedFaculty.address.place.country.name }}
+    </p>
+
+    <h3>Study Programmes</h3>
+    <ul>
+      <li *ngFor="let programme of selectedFaculty.studyProgrammes">
+        <a href="#" (click)="viewStudyProgramme(selectedFaculty.id, programme.id); $event.preventDefault()">
+          {{ programme.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="selectedProgramme && !isLoading" class="faculty-detail">
+    <a href="#" class="back-link" (click)="backToFaculty(); $event.preventDefault()">← Back to faculty</a>
+
+    <h2>{{ selectedProgramme.name }}</h2>
+    
+    <div class="meta">
+      <p><strong>ID:</strong> {{ selectedProgramme.id }}</p>
+      <p><strong>Faculty ID:</strong> {{ selectedProgramme.facultyId }}</p>
+    </div>
+
+    <p *ngIf="selectedProgramme.description" class="description">
+      {{ selectedProgramme.description }}
+    </p>
+
+    <div *ngIf="selectedProgramme.coordinator" class="coordinator-section">
+      <h3>Coordinator</h3>
+      <div class="coordinator-info">
+        <p><strong>Name:</strong> {{ selectedProgramme.coordinator.name }} {{ selectedProgramme.coordinator.surname }}</p>
+        <p *ngIf="selectedProgramme.coordinator.biography"><strong>Biography:</strong> {{ selectedProgramme.coordinator.biography }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="selectedProgramme.subjects?.length" class="subjects-section">
+      <h3>Subjects</h3>
+      <table class="subjects-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>ECTS</th>
+            <th>Mandatory</th>
+            <th>Year of Study</th>
+            <th>Academic Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subject of selectedProgramme.subjects">
+            <td><a [routerLink]="['/subject', subject.id]">{{ subject.name }}</a></td>
+            <td>{{ subject.ects }}</td>
+            <td>{{ subject.mandatory ? 'Yes' : 'No' }}</td>
+            <td>{{ subject.yearOfStudy }}</td>
+            <td>{{ subject.academicYear }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

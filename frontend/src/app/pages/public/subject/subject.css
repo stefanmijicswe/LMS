@@ -1,0 +1,61 @@
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card-title {
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  color: #333;
+}
+
+.meta {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.syllabus-section {
+  margin-top: 30px;
+}
+
+.section-title {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.syllabus-text {
+  line-height: 1.6;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.error {
+  color: #d32f2f;
+}
+

@@ -1,1 +1,44 @@
-<p>study-programmes-management works!</p>
+<div class="container" *ngIf="studyProgramme">
+
+  <h2 class="title">Study Programme Info</h2>
+
+  <table mat-table [dataSource]="[studyProgramme]" class="mat-elevation-z2">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let sp">
+        <span *ngIf="!isEditing">{{ sp.name }}</span>
+        <input matInput *ngIf="isEditing" [(ngModel)]="sp.name">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let sp">
+        <span *ngIf="!isEditing">{{ sp.description }}</span>
+        <input matInput *ngIf="isEditing" [(ngModel)]="sp.description">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="facultyId">
+      <th mat-header-cell *matHeaderCellDef>Faculty ID</th>
+      <td mat-cell *matCellDef="let sp">
+        <span *ngIf="!isEditing">{{ sp.facultyId }}</span>
+        <input matInput *ngIf="isEditing" [(ngModel)]="sp.facultyId" type="number">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let sp">
+        <button mat-button color="primary" *ngIf="!isEditing" (click)="edit()">Edit</button>
+        <button mat-button color="accent" *ngIf="isEditing" (click)="save()">Save</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
+
+  </table>
+
+</div>

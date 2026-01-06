@@ -32,4 +32,6 @@ export class StudyProgrammes {
   getStudyProgrammeById(id: number): Observable<StudyProgrammeDTO> {
     return this.http.get<StudyProgrammeDTO>(`${this.apiUrl}/study-programmes/${id}`);
   }
+
 }
+
