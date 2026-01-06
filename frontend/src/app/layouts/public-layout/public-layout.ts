@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-public-layout',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterOutlet, RouterLink],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, RouterOutlet, RouterLink],
   templateUrl: './public-layout.html',
   styleUrl: './public-layout.css',
 })
@@ -43,5 +44,9 @@ export class PublicLayout {
         console.error('Error loading university:', error);
       }
     });
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }

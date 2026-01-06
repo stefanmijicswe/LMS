@@ -24,6 +24,9 @@
             <a *ngIf="hasRole('ROLE_ADMIN')" mat-list-item routerLink="/app/user-management">User Management</a>
             <a *ngIf="hasRole('ROLE_ADMIN')" mat-list-item routerLink="/app/study-programmes-management">Study Programmes Management</a>
             <a *ngIf="hasRole('ROLE_ADMIN')" mat-list-item routerLink="/app/organisation-management">Organisation Management</a>
+            <a *ngIf="hasRole('ROLE_ADMIN')" mat-list-item routerLink="/app/subject-realisations">Subject Realisations</a>
+            <a *ngIf="hasRole('ROLE_ADMIN')" mat-list-item routerLink="/app/teacher-assignment">Teacher Assignment</a>
+            <a *ngIf="hasRole('ROLE_ADMIN')" mat-list-item routerLink="/app/examination-periods">Examination Periods</a>
 
             <a mat-list-item routerLink="/app/settings">Settings</a>
             <a mat-list-item (click)="logout()">Logout</a>

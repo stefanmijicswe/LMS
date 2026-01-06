@@ -2,8 +2,10 @@ package org.singidunum.backend.controller;
 
 import org.singidunum.backend.dto.*;
 import org.singidunum.backend.model.Role;
+import org.singidunum.backend.model.Teacher;
 import org.singidunum.backend.model.User;
 import org.singidunum.backend.service.AdminService;
+import org.singidunum.backend.service.TeacherService;
 import org.singidunum.backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +23,13 @@ public class AdminController {
 
     private final AdminService adminService;
     private final UserService userService;
+    private final TeacherService teacherService;
 
-    public AdminController(AdminService adminService, UserService userService) {
+    public AdminController(AdminService adminService, UserService userService, TeacherService teacherService) {
 
         this.adminService = adminService;
         this.userService = userService;
+        this.teacherService = teacherService;
     }
 
 
@@ -127,6 +131,24 @@ public class AdminController {
 
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDTO);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/teachers")
+    public ResponseEntity<List<TeacherDTO>> getAllTeachers() {
+        Iterable<Teacher> teachers = teacherService.findAll();
+        List<TeacherDTO> teacherDTOS = new ArrayList<>();
+        for (Teacher teacher : teachers) {
+            TeacherDTO teacherDTO = new TeacherDTO();
+            teacherDTO.setId(teacher.getId());
+            teacherDTO.setName(teacher.getName());
+            teacherDTO.setSurname(teacher.getSurname());
+            teacherDTO.setBiography(teacher.getBiography());
+            teacherDTO.setUserId(teacher.getUser().getId());
+            teacherDTOS.add(teacherDTO);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(teacherDTOS);
+    }
+
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponseDTO> handleUserManagementException(RuntimeException ex) {

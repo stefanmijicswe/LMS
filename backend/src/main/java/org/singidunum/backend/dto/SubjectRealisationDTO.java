@@ -3,6 +3,7 @@ package org.singidunum.backend.dto;
 public class SubjectRealisationDTO {
     private Long id;
     private Long subjectId;
+    private String subjectName;
 
     public SubjectRealisationDTO() {}
 
@@ -20,5 +21,13 @@ public class SubjectRealisationDTO {
 
     public void setSubjectId(Long subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 }

@@ -28,6 +28,9 @@ import { UserManagement } from './pages/dashboard/user-management/user-managemen
 import { StudyProgrammes } from './pages/public/study-programmes/study-programmes';
 import { LoginComponent } from './pages/public/login/login';
 import { RegisterComponent } from './pages/public/register/register';
+import { TeacherAssignment } from './pages/dashboard/teacher-assignment/teacher-assignment';
+import { SubjectRealisations } from './pages/dashboard/subject-realisations/subject-realisations';
+import { ExaminationPeriods } from './pages/dashboard/examination-periods/examination-periods';
 
 export const routes: Routes = [
 
@@ -71,6 +74,9 @@ export const routes: Routes = [
             { path: 'organisation-management', component: OrganisationManagement, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_ADMIN'] }},
             { path: 'study-programmes-management', component: StudyProgrammesManagement, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_ADMIN'] }},
             { path: 'user-management', component: UserManagement, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_ADMIN'] }},
+            { path: 'teacher-assignment', component: TeacherAssignment, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_ADMIN'] }},
+            { path: 'subject-realisations', component: SubjectRealisations, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_ADMIN'] }},
+            { path: 'examination-periods', component: ExaminationPeriods, canActivate: [authGuard, ], data: { requiredRole: ['ROLE_ADMIN'] }},
 
             { path: 'settings', component: Settings, canActivate: [authGuard]}
         ]
