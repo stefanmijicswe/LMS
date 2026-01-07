@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
+import {
+  Activities as ActivitiesService,
+  StudentActivityDTO
+} from '../../../services/activities/activities';
 
 @Component({
   selector: 'activities',
@@ -9,28 +13,33 @@ import { MatTableModule } from '@angular/material/table';
   standalone: true,
   imports: [
     CommonModule,
-    MatTableModule,
+    MatTableModule
   ]
 })
-export class Activities {
-  subjects = [
-    { number: 1, name: 'Mathematics', attempts: 2, finalPoints: 90, finalGrade: 10, ects: 6 },
-    { number: 2, name: 'Discrete Mathematics', attempts: 1, finalPoints: 80, finalGrade: 9, ects: 6 },
-    { number: 3, name: 'Object Oriented Programming 1', attempts: 2, finalPoints: 85, finalGrade: 8, ects: 6 },
-    { number: 4, name: 'Computer Networks', attempts: 1, finalPoints: 70, finalGrade: 6, ects: 6 }
+export class Activities implements OnInit {
+  activities: StudentActivityDTO[] = [];
+
+  displayedColumns: string[] = [
+    'subjectName',
+    'points',
+    'startTime',
+    'endTime'
   ];
 
-  displayedColumns: string[] = ['number', 'name', 'attempts', 'finalPoints', 'finalGrade', 'ects'];
+  constructor(private activitiesService: ActivitiesService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loadActivities();
   }
 
-  get totalEcts(): number {
-    return this.subjects.reduce((acc, sub) => acc + sub.ects, 0);
-  }
-  
-  get averageGrade(): number {
-    const totalGrades = this.subjects.reduce((acc, sub) => acc + sub.finalGrade, 0);
-    return totalGrades / this.subjects.length;
+  loadActivities(): void {
+    this.activitiesService.getMyActivities().subscribe({
+      next: (data: StudentActivityDTO[]) => {
+        this.activities = data;
+      },
+      error: (err: unknown) => {
+        console.error(err);
+      }
+    });
   }
 }
