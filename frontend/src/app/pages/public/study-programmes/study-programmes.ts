@@ -34,7 +34,7 @@ export class StudyProgrammes implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    if (id) {
+        if (id) {
       this.studyProgrammesService.getStudyProgrammeById(id).subscribe({
         next: (data: any) => {
           if (data && data.facultyId) {
@@ -49,17 +49,17 @@ export class StudyProgrammes implements OnInit {
           this.isLoading = false;
         }
       });
-    } else {
+        } else {
       this.studyProgrammesService.getAllStudyProgrammes().subscribe({
         next: (data: any[]) => {
           this.studyProgrammes = data;
-          this.isLoading = false;
-        },
-        error: () => {
-          this.error = 'Failed to load study programmes.';
-          this.isLoading = false;
-        }
-      });
+        this.isLoading = false;
+      },
+      error: () => {
+        this.error = 'Failed to load study programmes.';
+        this.isLoading = false;
+      }
+    });
     }
   }
 }

@@ -1,19 +1,12 @@
 package org.singidunum.backend.controller;
 
-import org.singidunum.backend.dto.AddressDTO;
-import org.singidunum.backend.dto.CountryDTO;
-import org.singidunum.backend.dto.PlaceDTO;
-import org.singidunum.backend.dto.StudentDTO;
-import org.singidunum.backend.model.Address;
-import org.singidunum.backend.model.Country;
-import org.singidunum.backend.model.Place;
-import org.singidunum.backend.model.Student;
-import org.singidunum.backend.service.AddressService;
-import org.singidunum.backend.service.CountryService;
-import org.singidunum.backend.service.PlaceService;
-import org.singidunum.backend.service.StudentService;
+import org.singidunum.backend.dto.*;
+import org.singidunum.backend.model.*;
+import org.singidunum.backend.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,13 +20,15 @@ public class StudentController {
     private final AddressService addressService;
     private final PlaceService placeService;
     private final CountryService countryService;
+    private final AuthService authService;
 
     public StudentController(StudentService studentService, AddressService addressService,
-                             PlaceService placeService, CountryService countryService) {
+                             PlaceService placeService, CountryService countryService, AuthService authService) {
         this.studentService = studentService;
         this.addressService = addressService;
         this.placeService = placeService;
         this.countryService = countryService;
+        this.authService = authService;
     }
 
     @GetMapping
@@ -110,6 +105,71 @@ public class StudentController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/me/subjects")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<List<StudentSubjectDTO>> getMySubjects(Authentication authentication) {
+        try {
+            String username = authentication.getName();
+            Long userId = authService.findDomainUserByUsername(username).getId();
+            Student student = studentService.findByUserId(userId);
+
+            List<StudentSubjectDTO> subjects = studentService.getStudentSubjects(student.getId());
+            return ResponseEntity.ok(subjects);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/me/activities")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<List<StudentActivityDTO>> getMyActivities(Authentication authentication) {
+        try {
+            String username = authentication.getName();
+            Long userId = authService.findDomainUserByUsername(username).getId();
+            Student student = studentService.findByUserId(userId);
+
+            List<StudentActivityDTO> activities = studentService.getStudentActivities(student.getId());
+            return ResponseEntity.ok(activities);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping("/me/register-exam")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<ExaminationDTO> registerForExam(
+            @RequestBody RegisterExamDTO dto,
+            Authentication authentication) {
+        try {
+            String username = authentication.getName();
+            Long userId = authService.findDomainUserByUsername(username).getId();
+            Student student = studentService.findByUserId(userId);
+
+            Examination examination = studentService.registerForExam(
+                    student.getId(),
+                    dto.getKnowledgeEvaluationId()
+            );
+
+            ExaminationDTO examinationDTO = new ExaminationDTO();
+            examinationDTO.setId(examination.getId());
+            examinationDTO.setPoints(examination.getPoints());
+            examinationDTO.setNote(examination.getNote());
+            examinationDTO.setStudentOnYearId(examination.getStudentOnYear().getId());
+            examinationDTO.setKnowledgeEvaluationId(examination.getKnowledgeEvaluation().getId());
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(examinationDTO);
+        } catch (RuntimeException ex) {
+            String message = ex.getMessage();
+            if (message != null && message.contains("already registered")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            if (message != null && message.contains("not found")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     private StudentDTO convertStudentToDTO(Student s) {
@@ -218,5 +278,22 @@ public class StudentController {
         Country country = new Country();
         country.setName(dto.getName());
         return countryService.saveCountry(country);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponseDTO> handleStudentException(RuntimeException ex) {
+        String message = ex.getMessage();
+        if (message != null && message.contains("not found")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponseDTO(message));
+        }
+        if (message != null && (message.contains("already registered") ||
+                message.contains("not enrolled") ||
+                message.contains("not active"))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponseDTO(message));
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponseDTO("An error occurred"));
     }
 }

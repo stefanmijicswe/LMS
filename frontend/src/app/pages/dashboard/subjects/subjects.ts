@@ -1,12 +1,18 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogModule,
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material/dialog';
+
+import {
+  Subjects as SubjectsService,
+  SubjectDTO
+} from '../../../services/subjects/subjects';
 
 @Component({
   selector: 'subjects',
@@ -17,33 +23,47 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     MatTableModule,
     MatButtonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule
+    MatDialogModule
   ]
 })
-export class Subjects {
-  subjects = [
-    { name: 'Mathematics', ects: 6, attempts: 2, professor: 'Dr. John Doe' },
-    { name: 'Physics', ects: 6, attempts: 1, professor: 'Dr. Jane Smith' },
-    { name: 'Computer Science', ects: 6, attempts: 2, professor: 'Dr. Alice Brown' },
-    { name: 'Literature', ects: 6, attempts: 1, professor: 'Dr. Bob White' }
+export class Subjects implements OnInit {
+  subjects: SubjectDTO[] = [];
+
+  displayedColumns: string[] = [
+    'name',
+    'ects',
+    'studyProgrammeName',
+    'yearNumber',
+    'mandatory',
+    'register'
   ];
 
-  displayedColumns: string[] = ['name', 'ects', 'attempts', 'professor', 'register'];
+  constructor(
+    private subjectsService: SubjectsService,
+    private dialog: MatDialog
+  ) {}
 
-  constructor(private dialog: MatDialog) {}
+  ngOnInit(): void {
+    this.loadSubjects();
+  }
 
-  openRegisterDialog(subject: any): void {
-    const dialogRef = this.dialog.open(SubjectDialog, {
-      width: '400px',
-      data: { subject: subject, examTerm: 'November 2025' }
+  loadSubjects(): void {
+    this.subjectsService.getMySubjects().subscribe({
+      next: (data: SubjectDTO[]) => {
+        this.subjects = data;
+      },
+      error: (err: unknown) => {
+        console.error('Error loading subjects', err);
+      }
     });
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Registered for subject: ' + subject.name);
+  openRegisterDialog(subject: SubjectDTO): void {
+    this.dialog.open(SubjectDialog, {
+      width: '400px',
+      data: {
+        subject,
+        examTerm: 'November 2025'
       }
     });
   }
@@ -53,32 +73,36 @@ export class Subjects {
   selector: 'subject-dialog',
   template: `
     <h2 mat-dialog-title>Register for {{ data.subject.name }}</h2>
+
     <mat-dialog-content>
-      <p><strong>Exam Term:</strong> {{ data.examTerm }}</p>
+      <p><strong>Programme:</strong> {{ data.subject.studyProgrammeName }}</p>
+      <p><strong>Year:</strong> {{ data.subject.yearNumber }}</p>
+      <p><strong>ECTS:</strong> {{ data.subject.ects }}</p>
+      <p><strong>Exam term:</strong> {{ data.examTerm }}</p>
     </mat-dialog-content>
+
     <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-raised-button color="primary" (click)="onRegister()">Register</button>
+      <button mat-button (click)="close()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="register()">Register</button>
     </mat-dialog-actions>
   `,
   standalone: true,
-  imports: [
-    MatDialogModule,
-    MatButtonModule,
-    MatDialogModule,
-  ]
+  imports: [MatDialogModule, MatButtonModule]
 })
 export class SubjectDialog {
   constructor(
     public dialogRef: MatDialogRef<SubjectDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: {
+      subject: SubjectDTO;
+      examTerm: string;
+    }
   ) {}
 
-  onCancel(): void {
+  close(): void {
     this.dialogRef.close();
   }
 
-  onRegister(): void {
+  register(): void {
     this.dialogRef.close(true);
   }
 }
