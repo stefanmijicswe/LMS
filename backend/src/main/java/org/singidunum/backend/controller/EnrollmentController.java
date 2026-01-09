@@ -2,20 +2,53 @@ package org.singidunum.backend.controller;
 
 import org.singidunum.backend.dto.EnrolStudentRequestDTO;
 import org.singidunum.backend.dto.ErrorResponseDTO;
+import org.singidunum.backend.dto.UserResponseDTO;
+import org.singidunum.backend.model.User;
 import org.singidunum.backend.service.EnrollmentService;
+import org.singidunum.backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/enrolment")
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
+    private final UserService userService;
 
-    public EnrollmentController(EnrollmentService enrollmentService) {
+    public EnrollmentController(EnrollmentService enrollmentService, UserService userService) {
         this.enrollmentService = enrollmentService;
+        this.userService = userService;
+    }
+
+    @PreAuthorize("hasRole('STUDENT_SERVICE')")
+    @GetMapping("/users")
+    public ResponseEntity<List<UserResponseDTO>> getUsersWithOnlyRoleUser(@RequestParam(required = false) String username) {
+        try {
+            List<User> users = userService.findUsersWithOnlyRoleUser(username);
+            List<UserResponseDTO> dtos = new ArrayList<>();
+            for (User user : users) {
+                UserResponseDTO dto = new UserResponseDTO();
+                dto.setId(user.getId());
+                dto.setUsername(user.getUsername());
+                List<String> roleNames = new ArrayList<>();
+                if (user.getRoles() != null) {
+                    for (org.singidunum.backend.model.Role role : user.getRoles()) {
+                        roleNames.add(role.getName());
+                    }
+                }
+                dto.setRoles(roleNames);
+                dtos.add(dto);
+            }
+            return ResponseEntity.ok(dtos);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT_SERVICE')")

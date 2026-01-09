@@ -137,6 +137,21 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/me/examination-periods/active")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<List<ActiveExaminationPeriodDTO>> getActiveExaminationPeriodsWithSubjects(Authentication authentication) {
+        try {
+            String username = authentication.getName();
+            Long userId = authService.findDomainUserByUsername(username).getId();
+            Student student = studentService.findByUserId(userId);
+
+            List<ActiveExaminationPeriodDTO> periods = studentService.getActiveExaminationPeriodsWithSubjects(student.getId());
+            return ResponseEntity.ok(periods);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @PostMapping("/me/register-exam")
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<ExaminationDTO> registerForExam(

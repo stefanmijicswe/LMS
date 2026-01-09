@@ -1,0 +1,48 @@
+<div style="padding: 20px;">
+  <h2>Exam Registration</h2>
+
+  <div *ngIf="isLoading" style="text-align: center; padding: 40px;">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <div *ngIf="error" style="color: red; padding: 20px;">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!isLoading && !error">
+    <div *ngIf="examinationPeriods.length === 0" style="padding: 20px;">
+      No active examination periods available for registration.
+    </div>
+
+    <div *ngIf="examinationPeriods.length > 0">
+      <div *ngFor="let period of examinationPeriods" style="margin-bottom: 30px;">
+        <h3 style="margin-bottom: 10px;">{{ period.examinationPeriodName }}</h3>
+        <div *ngIf="period.startDate && period.endDate" style="margin-bottom: 15px; color: #666; font-size: 14px;">
+          {{ period.startDate | date:'dd.MM.yyyy' }} - {{ period.endDate | date:'dd.MM.yyyy' }}
+        </div>
+
+        <div *ngFor="let subject of period.subjects" style="padding: 12px; border: 1px solid #ddd; margin-bottom: 8px; border-radius: 4px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500; margin-bottom: 4px;">{{ subject.subjectName }}</div>
+              <div style="font-size: 13px; color: #666;">
+                {{ subject.evaluationType }} • {{ subject.points }} points
+                <span *ngIf="subject.isRegistered" style="margin-left: 10px;">• Registered</span>
+              </div>
+            </div>
+            <button
+              *ngIf="!subject.isRegistered"
+              mat-raised-button
+              color="primary"
+              (click)="registerForExam(subject)"
+              [disabled]="!isCurrentlyActive(period)"
+              style="margin-left: 15px;">
+              Register
+            </button>
+            <span *ngIf="subject.isRegistered" style="color: #666; margin-left: 15px;">Registered</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

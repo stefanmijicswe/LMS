@@ -1,36 +1,24 @@
-<div class="add-student-container">
-  <button mat-raised-button color="accent" (click)="addStudent()">
-    Add New Student
-  </button>
-</div>
-
 <mat-card class="filter-table-card">
 
   <mat-form-field appearance="outline" class="filter-field">
-    <mat-label>Search students</mat-label>
+    <mat-label>Search by username</mat-label>
     <input
       matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Search by email, name, or last name" />
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange($event)"
+      placeholder="Enter username (full or partial)" />
   </mat-form-field>
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <div *ngIf="isLoading" style="text-align: center; padding: 20px;">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
 
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="!isLoading">
+
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef>Username</th>
+      <td mat-cell *matCellDef="let row">{{ row.username }}</td>
     </ng-container>
-
-    <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef>Last Name</th>
-      <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
-    </ng-container>
-
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
@@ -48,5 +36,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
   </table>
+
+  <div *ngIf="!isLoading && searchTerm && searchTerm.trim().length > 0 && dataSource.data.length === 0" style="text-align: center; padding: 20px;">
+    No users found
+  </div>
 
 </mat-card>

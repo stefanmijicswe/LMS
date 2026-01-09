@@ -85,4 +85,33 @@ public class UserService {
         user.setRoles(roles);
         return userRepository.save(user);
     }
+
+    @Transactional(readOnly = true)
+    public List<User> findUsersWithOnlyRoleUser(String usernameFilter) {
+        List<User> users;
+        if (usernameFilter != null && !usernameFilter.trim().isEmpty()) {
+            users = userRepository.findByActiveTrueAndUsernameContainingIgnoreCase(usernameFilter.trim());
+        } else {
+            users = userRepository.findByActiveTrue();
+        }
+
+        Optional<Role> roleUserOpt = roleRepository.findByName("ROLE_USER");
+        if (roleUserOpt.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Role roleUser = roleUserOpt.get();
+        List<User> result = new ArrayList<>();
+
+        for (User user : users) {
+            if (user.getRoles() != null && user.getRoles().size() == 1) {
+                Role userRole = user.getRoles().get(0);
+                if (userRole != null && userRole.getName() != null && userRole.getName().equals("ROLE_USER")) {
+                    result.add(user);
+                }
+            }
+        }
+
+        return result;
+    }
 }
