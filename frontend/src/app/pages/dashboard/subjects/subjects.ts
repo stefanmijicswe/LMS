@@ -80,11 +80,6 @@ export class Subjects implements OnInit {
       <p><strong>ECTS:</strong> {{ data.subject.ects }}</p>
       <p><strong>Exam term:</strong> {{ data.examTerm }}</p>
     </mat-dialog-content>
-
-    <mat-dialog-actions align="end">
-      <button mat-button (click)="close()">Cancel</button>
-      <button mat-raised-button color="primary" (click)="register()">Register</button>
-    </mat-dialog-actions>
   `,
   standalone: true,
   imports: [MatDialogModule, MatButtonModule]
