@@ -154,8 +154,13 @@ export class Enrolment implements OnInit, OnDestroy {
       </mat-form-field>
 
       <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Address ID</mat-label>
-        <input matInput type="number" [(ngModel)]="form.addressId" required>
+        <mat-label>Address</mat-label>
+        <mat-select [(ngModel)]="form.addressId" required>
+          <mat-option [value]="0">Select Address</mat-option>
+          <mat-option *ngFor="let address of addresses" [value]="address.id">
+            {{ getAddressDisplay(address) }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </mat-dialog-content>
 
@@ -178,6 +183,7 @@ export class EnrolDialog implements OnInit {
     addressId: 0
   };
 
+  addresses: any[] = [];
   isSubmitting: boolean = false;
 
   constructor(
@@ -191,6 +197,25 @@ export class EnrolDialog implements OnInit {
   }
 
   ngOnInit() {
+    this.loadAddresses();
+  }
+
+  loadAddresses() {
+    this.enrolmentService.getAddresses().subscribe({
+      next: (data) => {
+        this.addresses = data;
+      },
+      error: (err) => {
+        console.error('Error loading addresses:', err);
+      }
+    });
+  }
+
+  getAddressDisplay(address: any): string {
+    if (!address) return '';
+    const place = address.place ? address.place.name : '';
+    const country = address.place?.country ? `, ${address.place.country.name}` : '';
+    return `${address.streetName} ${address.streetNumber}, ${place}${country}`;
   }
 
   isFormValid(): boolean {
