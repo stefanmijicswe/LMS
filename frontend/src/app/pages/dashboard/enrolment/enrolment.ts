@@ -76,7 +76,7 @@ export class Enrolment implements OnInit, OnDestroy {
     } else {
       this.dataSource.data = [];
       this.isLoading = false;
-    }
+  }
   }
 
   searchUsers(username: string) {

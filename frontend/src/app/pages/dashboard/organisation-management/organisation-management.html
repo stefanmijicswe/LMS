@@ -1,4 +1,4 @@
-<div class="container" *ngIf="university && faculty">
+<div class="container" *ngIf="university && faculties.length > 0">
 
   <h2 class="title">University Info</h2>
 
@@ -49,6 +49,7 @@
       <td mat-cell *matCellDef="let u">
         <button mat-button color="primary" *ngIf="!isEditingUniversity" (click)="editUniversity()">Edit</button>
         <button mat-button color="accent" *ngIf="isEditingUniversity" (click)="saveUniversity()">Save</button>
+        <button mat-button *ngIf="isEditingUniversity" (click)="cancelUniversity()">Cancel</button>
       </td>
     </ng-container>
 
@@ -56,55 +57,56 @@
     <tr mat-row *matRowDef="let row; columns: universityColumns;"></tr>
   </table>
 
-  <h2 class="title">Faculty Info</h2>
+  <h2 class="title">Faculties</h2>
 
-  <table mat-table [dataSource]="[faculty]" class="mat-elevation-z2">
+  <table mat-table [dataSource]="faculties" class="mat-elevation-z2">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let f">
-        <span *ngIf="!isEditingFaculty">{{ f.name }}</span>
-        <input matInput *ngIf="isEditingFaculty" [(ngModel)]="f.name">
+        <span *ngIf="editingFacultyId !== f.id">{{ f.name }}</span>
+        <input matInput *ngIf="editingFacultyId === f.id" [(ngModel)]="editedFaculties[f.id].name">
       </td>
     </ng-container>
 
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
       <td mat-cell *matCellDef="let f">
-        <span *ngIf="!isEditingFaculty">{{ f.description }}</span>
-        <input matInput *ngIf="isEditingFaculty" [(ngModel)]="f.description">
+        <span *ngIf="editingFacultyId !== f.id">{{ f.description || '-' }}</span>
+        <input matInput *ngIf="editingFacultyId === f.id" [(ngModel)]="editedFaculties[f.id].description">
       </td>
     </ng-container>
 
     <ng-container matColumnDef="phoneNumber">
       <th mat-header-cell *matHeaderCellDef>Phone</th>
       <td mat-cell *matCellDef="let f">
-        <span *ngIf="!isEditingFaculty">{{ f.phoneNumber }}</span>
-        <input matInput *ngIf="isEditingFaculty" [(ngModel)]="f.phoneNumber">
+        <span *ngIf="editingFacultyId !== f.id">{{ f.phoneNumber || '-' }}</span>
+        <input matInput *ngIf="editingFacultyId === f.id" [(ngModel)]="editedFaculties[f.id].phoneNumber">
       </td>
     </ng-container>
 
     <ng-container matColumnDef="officialEmail">
       <th mat-header-cell *matHeaderCellDef>Email</th>
       <td mat-cell *matCellDef="let f">
-        <span *ngIf="!isEditingFaculty">{{ f.officialEmail }}</span>
-        <input matInput *ngIf="isEditingFaculty" [(ngModel)]="f.officialEmail">
+        <span *ngIf="editingFacultyId !== f.id">{{ f.officialEmail || '-' }}</span>
+        <input matInput *ngIf="editingFacultyId === f.id" [(ngModel)]="editedFaculties[f.id].officialEmail">
       </td>
     </ng-container>
 
     <ng-container matColumnDef="website">
       <th mat-header-cell *matHeaderCellDef>Website</th>
       <td mat-cell *matCellDef="let f">
-        <span *ngIf="!isEditingFaculty">{{ f.website }}</span>
-        <input matInput *ngIf="isEditingFaculty" [(ngModel)]="f.website">
+        <span *ngIf="editingFacultyId !== f.id">{{ f.website || '-' }}</span>
+        <input matInput *ngIf="editingFacultyId === f.id" [(ngModel)]="editedFaculties[f.id].website">
       </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let f">
-        <button mat-button color="primary" *ngIf="!isEditingFaculty" (click)="editFaculty()">Edit</button>
-        <button mat-button color="accent" *ngIf="isEditingFaculty" (click)="saveFaculty()">Save</button>
+        <button mat-button color="primary" *ngIf="editingFacultyId !== f.id" (click)="editFaculty(f)">Edit</button>
+        <button mat-button color="accent" *ngIf="editingFacultyId === f.id" (click)="saveFaculty(f)">Save</button>
+        <button mat-button *ngIf="editingFacultyId === f.id" (click)="cancelFaculty(f)">Cancel</button>
       </td>
     </ng-container>
 
