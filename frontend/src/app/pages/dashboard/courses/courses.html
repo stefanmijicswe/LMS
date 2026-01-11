@@ -1,1 +1,54 @@
-<p>courses works!</p>
+<div style="padding: 20px;">
+  <h2>My Courses</h2>
+
+  <div *ngIf="isLoading" style="text-align: center; padding: 40px;">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <div *ngIf="error" style="color: red; padding: 20px;">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!isLoading && !error">
+    <div *ngIf="courses.length === 0" style="padding: 20px;">
+      No courses found.
+    </div>
+
+    <table mat-table [dataSource]="courses" *ngIf="courses.length > 0" style="width: 100%;">
+
+      <ng-container matColumnDef="subjectName">
+        <th mat-header-cell *matHeaderCellDef>Subject</th>
+        <td mat-cell *matCellDef="let course">{{ course.subjectName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="studyProgrammeName">
+        <th mat-header-cell *matHeaderCellDef>Study Programme</th>
+        <td mat-cell *matCellDef="let course">{{ course.studyProgrammeName || '-' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="yearNumber">
+        <th mat-header-cell *matHeaderCellDef>Year</th>
+        <td mat-cell *matCellDef="let course">{{ course.yearNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ects">
+        <th mat-header-cell *matHeaderCellDef>ECTS</th>
+        <td mat-cell *matCellDef="let course">{{ course.ects || '-' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="teachingTypeName">
+        <th mat-header-cell *matHeaderCellDef>Teaching Type</th>
+        <td mat-cell *matCellDef="let course">{{ course.teachingTypeName || '-' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="numberOfClasses">
+        <th mat-header-cell *matHeaderCellDef>Classes</th>
+        <td mat-cell *matCellDef="let course">{{ course.numberOfClasses || '-' }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" style="background-color: #f1f1f1;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </div>
+</div>

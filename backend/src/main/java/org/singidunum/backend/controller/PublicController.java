@@ -22,12 +22,14 @@ public class PublicController {
     private final FacultyService facultyService;
     private final StudyProgrammeService studyProgrammeService;
     private final SubjectService subjectService;
+    private final AddressService addressService;
 
-    public PublicController(UniversityService universityService, FacultyService facultyService, StudyProgrammeService studyProgrammeService, SubjectService subjectService) {
+    public PublicController(UniversityService universityService, FacultyService facultyService, StudyProgrammeService studyProgrammeService, SubjectService subjectService, AddressService addressService) {
         this.universityService = universityService;
         this.facultyService = facultyService;
         this.studyProgrammeService = studyProgrammeService;
         this.subjectService = subjectService;
+        this.addressService = addressService;
     }
 
     private TeacherDTO convertTeacherToDTO(Teacher teacher) {
@@ -356,5 +358,15 @@ public class PublicController {
             studyProgrammeDTOs.add(convertStudyProgrammeToDTO(studyProgramme));
         }
         return new ResponseEntity<>(studyProgrammeDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/addresses")
+    public ResponseEntity<Iterable<AddressDTO>> getAddresses() {
+        Iterable<Address> addresses = addressService.findAllAddresses();
+        ArrayList<AddressDTO> addressesDTO = new ArrayList<>();
+        for (Address address : addresses) {
+            addressesDTO.add(convertAddressToDTO(address));
+        }
+        return new ResponseEntity<>(addressesDTO, HttpStatus.OK);
     }
 }

@@ -17,6 +17,20 @@ export interface EnrolStudentRequest {
   addressId: number;
 }
 
+export interface AddressDTO {
+  id: number;
+  streetName: string;
+  streetNumber: string;
+  place?: {
+    id: number;
+    name: string;
+    country?: {
+      id: number;
+      name: string;
+    };
+  };
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -35,6 +49,10 @@ export class EnrolmentService {
 
   enrolStudent(request: EnrolStudentRequest): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/students`, request);
+  }
+
+  getAddresses(): Observable<AddressDTO[]> {
+    return this.http.get<AddressDTO[]>('http://localhost:8081/public/addresses');
   }
 }
 
