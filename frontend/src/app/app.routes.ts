@@ -32,6 +32,7 @@ import { UserManagement } from './pages/dashboard/user-management/user-managemen
 import { TeacherAssignment } from './pages/dashboard/teacher-assignment/teacher-assignment';
 import { SubjectRealisations } from './pages/dashboard/subject-realisations/subject-realisations';
 import { ExaminationPeriods } from './pages/dashboard/examination-periods/examination-periods';
+import { KnowledgeEvaluations } from './pages/dashboard/knowledge-evaluations/knowledge-evaluations';
 
 export const routes: Routes = [
     {
@@ -68,6 +69,7 @@ export const routes: Routes = [
             { path: 'teacher-assignment', component: TeacherAssignment, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
             { path: 'subject-realisations', component: SubjectRealisations, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
             { path: 'examination-periods', component: ExaminationPeriods, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'knowledge-evaluations', component: KnowledgeEvaluations, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
             { path: 'notifications', component: Notifications, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
             { path: 'subjects', component: Subjects, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
             { path: 'activities', component: Activities, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
