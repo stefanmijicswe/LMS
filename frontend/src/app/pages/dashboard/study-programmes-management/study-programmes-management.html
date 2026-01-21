@@ -1,38 +1,42 @@
-<div class="container" *ngIf="studyProgramme">
+<div class="container">
 
-  <h2 class="title">Study Programme Info</h2>
+  <h2 class="title">Study Programmes Management</h2>
 
-  <table mat-table [dataSource]="[studyProgramme]" class="mat-elevation-z2">
+  <table mat-table [dataSource]="studyProgrammes" class="mat-elevation-z2">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let sp">
-        <span *ngIf="!isEditing">{{ sp.name }}</span>
-        <input matInput *ngIf="isEditing" [(ngModel)]="sp.name">
+        <span *ngIf="editingId !== sp.id">{{ sp.name }}</span>
+        <input matInput *ngIf="editingId === sp.id" [(ngModel)]="editedProgrammes[sp.id].name">
       </td>
     </ng-container>
 
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
       <td mat-cell *matCellDef="let sp">
-        <span *ngIf="!isEditing">{{ sp.description }}</span>
-        <input matInput *ngIf="isEditing" [(ngModel)]="sp.description">
+        <span *ngIf="editingId !== sp.id">{{ sp.description || '-' }}</span>
+        <input matInput *ngIf="editingId === sp.id" [(ngModel)]="editedProgrammes[sp.id].description">
       </td>
     </ng-container>
 
     <ng-container matColumnDef="facultyId">
-      <th mat-header-cell *matHeaderCellDef>Faculty ID</th>
+      <th mat-header-cell *matHeaderCellDef>Faculty</th>
       <td mat-cell *matCellDef="let sp">
-        <span *ngIf="!isEditing">{{ sp.facultyId }}</span>
-        <input matInput *ngIf="isEditing" [(ngModel)]="sp.facultyId" type="number">
+        <span *ngIf="editingId !== sp.id">{{ getFacultyName(sp.facultyId) }}</span>
+        <select *ngIf="editingId === sp.id" [(ngModel)]="editedProgrammes[sp.id].facultyId" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px; width: 100%;">
+          <option [ngValue]="null">Select Faculty</option>
+          <option *ngFor="let faculty of faculties" [ngValue]="faculty.id">{{ faculty.name }}</option>
+        </select>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let sp">
-        <button mat-button color="primary" *ngIf="!isEditing" (click)="edit()">Edit</button>
-        <button mat-button color="accent" *ngIf="isEditing" (click)="save()">Save</button>
+        <button mat-button color="primary" *ngIf="editingId !== sp.id" (click)="edit(sp)">Edit</button>
+        <button mat-button color="accent" *ngIf="editingId === sp.id" (click)="save(sp)">Save</button>
+        <button mat-button *ngIf="editingId === sp.id" (click)="cancel(sp)">Cancel</button>
       </td>
     </ng-container>
 
@@ -40,5 +44,35 @@
     <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
 
   </table>
+
+  <div style="margin-top: 20px;">
+    <button mat-raised-button color="primary" (click)="toggleAddForm()">
+      Add New Programme
+    </button>
+  </div>
+
+  <div *ngIf="showAddForm" style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 4px;">
+    <h3>New Study Programme</h3>
+    
+    <div style="margin-bottom: 15px;">
+      <input matInput placeholder="Name" [(ngModel)]="newProgramme.name" style="width: 100%; padding: 8px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <input matInput placeholder="Description" [(ngModel)]="newProgramme.description" style="width: 100%; padding: 8px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <select [(ngModel)]="newProgramme.facultyId" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        <option [ngValue]="null">Select Faculty</option>
+        <option *ngFor="let faculty of faculties" [ngValue]="faculty.id">{{ faculty.name }}</option>
+      </select>
+    </div>
+    
+    <div>
+      <button mat-button (click)="createProgramme()" style="margin-right: 10px;">Create</button>
+      <button mat-button (click)="toggleAddForm()">Cancel</button>
+    </div>
+  </div>
 
 </div>

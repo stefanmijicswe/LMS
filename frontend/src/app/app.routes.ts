@@ -12,19 +12,16 @@ import { RegisterComponent } from './pages/public/register/register';
 import { authGuard } from './auth.guard';
 import { Subjects } from './pages/dashboard/subjects/subjects';
 import { Activities } from './pages/dashboard/activities/activities';
-import { Notifications } from './pages/dashboard/notifications/notifications';
 import { Syllabus } from './pages/dashboard/syllabus/syllabus';
 import { Enrolment } from './pages/dashboard/enrolment/enrolment';
 import { Documents } from './pages/dashboard/documents/documents';
 import { Schedule } from './pages/dashboard/schedule/schedule';
 import { Library } from './pages/dashboard/library/library';
 import { Supplies } from './pages/dashboard/supplies/supplies';
-import { Announcements } from './pages/dashboard/announcements/announcements';
 import { StaffManagement } from './pages/dashboard/staff-management/staff-management';
 import { Settings } from './pages/dashboard/settings/settings';
 import { Courses } from './pages/dashboard/courses/courses';
 import { Grading } from './pages/dashboard/grading/grading';
-import { Announcement } from './pages/dashboard/announcement/announcement';
 import { Students } from './pages/dashboard/students/students';
 import { OrganisationManagement } from './pages/dashboard/organisation-management/organisation-management';
 import { StudyProgrammesManagement } from './pages/dashboard/study-programmes-management/study-programmes-management';
@@ -32,7 +29,11 @@ import { UserManagement } from './pages/dashboard/user-management/user-managemen
 import { TeacherAssignment } from './pages/dashboard/teacher-assignment/teacher-assignment';
 import { SubjectRealisations } from './pages/dashboard/subject-realisations/subject-realisations';
 import { ExaminationPeriods } from './pages/dashboard/examination-periods/examination-periods';
+<<<<<<< HEAD
 import { KnowledgeEvaluations } from './pages/dashboard/knowledge-evaluations/knowledge-evaluations';
+=======
+import { ExamRegistration } from './pages/dashboard/exam-registration/exam-registration';
+>>>>>>> origin/main
 
 export const routes: Routes = [
     {
@@ -69,12 +70,16 @@ export const routes: Routes = [
             { path: 'teacher-assignment', component: TeacherAssignment, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
             { path: 'subject-realisations', component: SubjectRealisations, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
             { path: 'examination-periods', component: ExaminationPeriods, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+<<<<<<< HEAD
             { path: 'knowledge-evaluations', component: KnowledgeEvaluations, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
             { path: 'notifications', component: Notifications, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
+=======
+
+>>>>>>> origin/main
             { path: 'subjects', component: Subjects, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
             { path: 'activities', component: Activities, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
+            { path: 'exam-registration', component: ExamRegistration, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
 
-            { path: 'announcement', component: Announcement, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
             { path: 'syllabus', component: Syllabus, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
             { path: 'students', component: Students, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
             { path: 'courses', component: Courses, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
@@ -85,7 +90,6 @@ export const routes: Routes = [
             { path: 'schedule', component: Schedule, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
             { path: 'library', component: Library, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
             { path: 'supplies', component: Supplies, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
-            { path: 'announcements', component: Announcements, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
 
             { path: 'settings', component: Settings, canActivate: [authGuard] }
         ]

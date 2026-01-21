@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../../../auth.service';
 
@@ -78,14 +79,35 @@ export class PasswordDialogComponent {
     confirm: ''
   };
 
-  constructor(private dialogRef: MatDialogRef<PasswordDialogComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<PasswordDialogComponent>,
+    private http: HttpClient
+  ) {}
 
   close() {
     this.dialogRef.close();
   }
 
   submit() {
-    console.log('Password form:', this.form);
-    this.dialogRef.close(this.form);
+    if (this.form.newPass !== this.form.confirm) {
+      alert('Passwords do not match');
+      return;
+    }
+    if (!this.form.newPass || this.form.newPass.trim() === '') {
+      alert('New password cannot be empty');
+      return;
+    }
+    
+    this.http.put('http://localhost:8081/api/me/password', {
+      newPassword: this.form.newPass
+    }).subscribe({
+      next: () => {
+        alert('Password changed successfully');
+        this.dialogRef.close();
+      },
+      error: () => {
+        alert('Failed to change password');
+      }
+    });
   }
 }

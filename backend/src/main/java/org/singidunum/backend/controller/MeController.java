@@ -5,13 +5,13 @@ import org.singidunum.backend.dto.TeacherMeDTO;
 import org.singidunum.backend.model.Role;
 import org.singidunum.backend.model.User;
 import org.singidunum.backend.service.AuthService;
+import org.singidunum.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,9 +19,11 @@ import java.util.stream.Collectors;
 public class MeController {
 
     private final AuthService authService;
+    private final UserService userService;
 
-    public MeController(AuthService authService) {
+    public MeController(AuthService authService, UserService userService) {
         this.authService = authService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -53,5 +55,14 @@ public class MeController {
         }
 
         return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<Void> changePassword(@RequestBody Map<String, String> body, Authentication authentication) {
+        String username = authentication.getName();
+        User user = authService.findDomainUserByUsername(username);
+        String newPassword = body.get("newPassword");
+        userService.updateUser(user.getId(), null, newPassword);
+        return ResponseEntity.ok().build();
     }
 }

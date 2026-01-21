@@ -3,17 +3,15 @@
     <mat-sidenav mode="side" opened [fixedInViewport]="true">
         <mat-nav-list>
 
-            <a *ngIf="hasRole('ROLE_STUDENT')" mat-list-item routerLink="/app/notifications">Notifications</a>
             <a *ngIf="hasRole('ROLE_STUDENT')" mat-list-item routerLink="/app/subjects">Subjects</a>
             <a *ngIf="hasRole('ROLE_STUDENT')" mat-list-item routerLink="/app/activities">Activities</a>
+            <a *ngIf="hasRole('ROLE_STUDENT')" mat-list-item routerLink="/app/exam-registration">Exam registration</a>
 
-            <a *ngIf="hasRole('ROLE_PROFESSOR')" mat-list-item routerLink="/app/announcement">Announcements</a>
             <a *ngIf="hasRole('ROLE_PROFESSOR')" mat-list-item routerLink="/app/syllabus">Syllabus</a>
             <a *ngIf="hasRole('ROLE_PROFESSOR')" mat-list-item routerLink="/app/students">Students</a>
             <a *ngIf="hasRole('ROLE_PROFESSOR')" mat-list-item routerLink="/app/courses">Courses</a>
             <a *ngIf="hasRole('ROLE_PROFESSOR')" mat-list-item routerLink="/app/grading">Grading</a>
 
-            <a *ngIf="hasRole('ROLE_STUDENT_SERVICE')" mat-list-item routerLink="/app/announcements">Announcements</a>
             <a *ngIf="hasRole('ROLE_STUDENT_SERVICE')" mat-list-item routerLink="/app/enrolment">Enrolment</a>
             <a *ngIf="hasRole('ROLE_STUDENT_SERVICE')" mat-list-item routerLink="/app/schedule">Schedule</a>
             <a *ngIf="hasRole('ROLE_STUDENT_SERVICE')" mat-list-item routerLink="/app/documents">Documents</a>
