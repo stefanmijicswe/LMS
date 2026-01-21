@@ -1,0 +1,60 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>Create Knowledge Evaluation</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="createKnowledgeEvaluation()" class="form">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Subject Realisation</mat-label>
+            <mat-select [(ngModel)]="form.subjectRealisationId" name="subjectRealisationId" required>
+              <mat-option *ngFor="let sr of subjectRealisations" [value]="sr.id">
+                {{ sr.subjectName }} (ID: {{ sr.id }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Examination Period</mat-label>
+            <mat-select [(ngModel)]="form.examinationPeriodId" name="examinationPeriodId" required>
+              <mat-option *ngFor="let ep of examinationPeriods" [value]="ep.id">
+                {{ ep.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Evaluation Type</mat-label>
+            <mat-select [(ngModel)]="form.evaluationTypeId" name="evaluationTypeId" required>
+              <mat-option *ngFor="let et of evaluationTypes" [value]="et.id">
+                {{ et.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Points</mat-label>
+            <input matInput type="number" [(ngModel)]="form.points" name="points" required />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Start Time</mat-label>
+            <input matInput type="datetime-local" [(ngModel)]="form.startTime" name="startTime" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>End Time</mat-label>
+            <input matInput type="datetime-local" [(ngModel)]="form.endTime" name="endTime" required />
+          </mat-form-field>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="isLoading || form.subjectRealisationId == null || form.examinationPeriodId == null || form.evaluationTypeId == null || !form.startTime || !form.endTime || form.points == null">
+          {{ isLoading ? 'Creating...' : 'Create' }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

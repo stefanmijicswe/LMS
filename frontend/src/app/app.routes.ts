@@ -29,7 +29,11 @@ import { UserManagement } from './pages/dashboard/user-management/user-managemen
 import { TeacherAssignment } from './pages/dashboard/teacher-assignment/teacher-assignment';
 import { SubjectRealisations } from './pages/dashboard/subject-realisations/subject-realisations';
 import { ExaminationPeriods } from './pages/dashboard/examination-periods/examination-periods';
+<<<<<<< HEAD
+import { KnowledgeEvaluations } from './pages/dashboard/knowledge-evaluations/knowledge-evaluations';
+=======
 import { ExamRegistration } from './pages/dashboard/exam-registration/exam-registration';
+>>>>>>> origin/main
 
 export const routes: Routes = [
     {
@@ -66,7 +70,12 @@ export const routes: Routes = [
             { path: 'teacher-assignment', component: TeacherAssignment, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
             { path: 'subject-realisations', component: SubjectRealisations, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
             { path: 'examination-periods', component: ExaminationPeriods, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+<<<<<<< HEAD
+            { path: 'knowledge-evaluations', component: KnowledgeEvaluations, canActivate: [authGuard,], data: { requiredRole: ['ROLE_ADMIN'] } },
+            { path: 'notifications', component: Notifications, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
+=======
 
+>>>>>>> origin/main
             { path: 'subjects', component: Subjects, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
             { path: 'activities', component: Activities, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
             { path: 'exam-registration', component: ExamRegistration, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
