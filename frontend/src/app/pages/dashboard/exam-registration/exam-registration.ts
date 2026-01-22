@@ -34,6 +34,7 @@ export class ExamRegistration implements OnInit {
     this.examRegistrationService.getActivePeriodsWithSubjects().subscribe({
       next: (periods: ActiveExaminationPeriod[]) => {
         this.examinationPeriods = periods;
+        console.log(periods);
         this.isLoading = false;
       },
       error: (err) => {

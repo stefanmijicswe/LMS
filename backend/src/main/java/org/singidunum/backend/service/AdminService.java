@@ -43,14 +43,11 @@ public class AdminService {
         Role roleStudentService = roleRepository.findByName("ROLE_STUDENT_SERVICE")
                 .orElseThrow(() -> new RuntimeException("ROLE_STUDENT_SERVICE not found"));
 
-        Role roleUser = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("ROLE_USER not found"));
-
         User u = new User();
         u.setUsername(dto.getUsername());
         u.setPassword(passwordEncoder.encode(dto.getPassword()));
         u.setActive(true);
-        u.setRoles(List.of(roleUser, roleStudentService));
+        u.setRoles(List.of(roleStudentService));
 
         User saved = userRepository.save(u);
 
@@ -79,15 +76,12 @@ public class AdminService {
         Role roleProfessor = roleRepository.findByName("ROLE_PROFESSOR")
                 .orElseThrow(() -> new RuntimeException("ROLE_PROFESSOR not found"));
 
-        Role roleUser = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("ROLE_USER not found"));
-
 
         User u = new User();
         u.setUsername(dto.getUsername());
         u.setPassword(passwordEncoder.encode(dto.getPassword()));
         u.setActive(true);
-        u.setRoles(List.of(roleUser, roleProfessor));
+        u.setRoles(List.of(roleProfessor));
 
         User savedUser = userRepository.save(u);
 
