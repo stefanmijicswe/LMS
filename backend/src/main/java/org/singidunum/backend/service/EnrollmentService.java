@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +96,7 @@ public class EnrollmentService {
         studentOnYear.setStudent(student);
         studentOnYear.setYearOfStudy(yearOfStudy);
         studentOnYear.setEnrolmentDate(new Date());
-        studentOnYear.setRecordNumber(username + "-" + yearOfStudy.getYearNumber());
+        studentOnYear.setRecordNumber(resolveRecordNumberForEnrollment(user));
 
         this.studentOnYearRepository.save(studentOnYear);
 
@@ -131,5 +132,32 @@ public class EnrollmentService {
                 }
             }
         }
+    }
+
+    private String generateUniqueRecordNumber() {
+        int year = LocalDate.now().getYear();
+        for (int i = 0; i <= 999999; i++) {
+            String candidate = String.format("%d%06d", year, i);
+            if (!studentOnYearRepository.existsByRecordNumber(candidate)) {
+                return candidate;
+            }
+        }
+        throw new RuntimeException("No available record number for year " + year);
+    }
+
+    private String resolveRecordNumberForEnrollment(User user) {
+        boolean hasOnlyRoleUser = user.getRoles() != null
+                && user.getRoles().size() == 1
+                && "ROLE_USER".equals(user.getRoles().get(0).getName());
+
+        if (hasOnlyRoleUser) {
+            return generateUniqueRecordNumber();
+        }
+
+        return studentOnYearRepository
+                .findFirstByStudent_User_IdOrderByEnrolmentDateDesc(user.getId())
+                .map(StudentOnYear::getRecordNumber)
+                .filter(rn -> rn != null && !rn.isBlank())
+                .orElseGet(this::generateUniqueRecordNumber);
     }
 }

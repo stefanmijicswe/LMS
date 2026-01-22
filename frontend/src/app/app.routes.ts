@@ -14,10 +14,7 @@ import { Subjects } from './pages/dashboard/subjects/subjects';
 import { Activities } from './pages/dashboard/activities/activities';
 import { Syllabus } from './pages/dashboard/syllabus/syllabus';
 import { Enrolment } from './pages/dashboard/enrolment/enrolment';
-import { Documents } from './pages/dashboard/documents/documents';
 import { Schedule } from './pages/dashboard/schedule/schedule';
-import { Library } from './pages/dashboard/library/library';
-import { Supplies } from './pages/dashboard/supplies/supplies';
 import { StaffManagement } from './pages/dashboard/staff-management/staff-management';
 import { Settings } from './pages/dashboard/settings/settings';
 import { Courses } from './pages/dashboard/courses/courses';
@@ -86,10 +83,7 @@ export const routes: Routes = [
             { path: 'grading', component: Grading, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
 
             { path: 'enrolment', component: Enrolment, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
-            { path: 'documents', component: Documents, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
             { path: 'schedule', component: Schedule, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
-            { path: 'library', component: Library, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
-            { path: 'supplies', component: Supplies, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT_SERVICE'] } },
 
             { path: 'settings', component: Settings, canActivate: [authGuard] }
         ]

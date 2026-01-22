@@ -114,4 +114,30 @@ public class UserService {
 
         return result;
     }
+
+    @Transactional(readOnly = true)
+    public List<User> findUsersForEnrollment(String usernameFilter) {
+        List<User> users;
+        if (usernameFilter != null && !usernameFilter.trim().isEmpty()) {
+            users = userRepository.findByActiveTrueAndUsernameContainingIgnoreCase(usernameFilter.trim());
+        } else {
+            users = userRepository.findByActiveTrue();
+        }
+
+        List<User> result = new ArrayList<>();
+        for (User user : users) {
+            if (user.getRoles() == null) {
+                continue;
+            }
+            boolean hasRoleUser = user.getRoles().stream()
+                    .anyMatch(role -> role != null && "ROLE_USER".equals(role.getName()));
+            boolean hasRoleStudent = user.getRoles().stream()
+                    .anyMatch(role -> role != null && "ROLE_STUDENT".equals(role.getName()));
+            if (hasRoleUser || hasRoleStudent) {
+                result.add(user);
+            }
+        }
+
+        return result;
+    }
 }

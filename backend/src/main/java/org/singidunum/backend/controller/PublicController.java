@@ -2,6 +2,7 @@ package org.singidunum.backend.controller;
 
 import org.singidunum.backend.dto.*;
 import org.singidunum.backend.model.*;
+import org.singidunum.backend.repository.YearOfStudyRepository;
 import org.singidunum.backend.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,15 @@ public class PublicController {
     private final StudyProgrammeService studyProgrammeService;
     private final SubjectService subjectService;
     private final AddressService addressService;
+    private final YearOfStudyRepository yearOfStudyRepository;
 
-    public PublicController(UniversityService universityService, FacultyService facultyService, StudyProgrammeService studyProgrammeService, SubjectService subjectService, AddressService addressService) {
+    public PublicController(UniversityService universityService, FacultyService facultyService, StudyProgrammeService studyProgrammeService, SubjectService subjectService, AddressService addressService, YearOfStudyRepository yearOfStudyRepository) {
         this.universityService = universityService;
         this.facultyService = facultyService;
         this.studyProgrammeService = studyProgrammeService;
         this.subjectService = subjectService;
         this.addressService = addressService;
+        this.yearOfStudyRepository = yearOfStudyRepository;
     }
 
     private TeacherDTO convertTeacherToDTO(Teacher teacher) {
@@ -358,6 +361,16 @@ public class PublicController {
             studyProgrammeDTOs.add(convertStudyProgrammeToDTO(studyProgramme));
         }
         return new ResponseEntity<>(studyProgrammeDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/study-programmes/{id}/years")
+    public ResponseEntity<Iterable<YearOfStudyOptionDTO>> getStudyProgrammeYears(@PathVariable Long id) {
+        Iterable<YearOfStudy> years = yearOfStudyRepository.findByStudyProgramme_IdOrderByYearNumberAsc(id);
+        ArrayList<YearOfStudyOptionDTO> dtos = new ArrayList<>();
+        for (YearOfStudy year : years) {
+            dtos.add(new YearOfStudyOptionDTO(year.getId(), year.getYearNumber()));
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/addresses")
