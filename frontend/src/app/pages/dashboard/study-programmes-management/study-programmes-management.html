@@ -45,34 +45,4 @@
 
   </table>
 
-  <div style="margin-top: 20px;">
-    <button mat-raised-button color="primary" (click)="toggleAddForm()">
-      Add New Programme
-    </button>
-  </div>
-
-  <div *ngIf="showAddForm" style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 4px;">
-    <h3>New Study Programme</h3>
-    
-    <div style="margin-bottom: 15px;">
-      <input matInput placeholder="Name" [(ngModel)]="newProgramme.name" style="width: 100%; padding: 8px;">
-    </div>
-    
-    <div style="margin-bottom: 15px;">
-      <input matInput placeholder="Description" [(ngModel)]="newProgramme.description" style="width: 100%; padding: 8px;">
-    </div>
-    
-    <div style="margin-bottom: 15px;">
-      <select [(ngModel)]="newProgramme.facultyId" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-        <option [ngValue]="null">Select Faculty</option>
-        <option *ngFor="let faculty of faculties" [ngValue]="faculty.id">{{ faculty.name }}</option>
-      </select>
-    </div>
-    
-    <div>
-      <button mat-button (click)="createProgramme()" style="margin-right: 10px;">Create</button>
-      <button mat-button (click)="toggleAddForm()">Cancel</button>
-    </div>
-  </div>
-
 </div>

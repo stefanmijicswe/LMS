@@ -25,13 +25,7 @@ export class StudyProgrammesManagement implements OnInit {
   studyProgrammes: any[] = [];
   editingId: number | null = null;
   editedProgrammes: { [key: number]: any } = {};
-  showAddForm = false;
   faculties: any[] = [];
-  newProgramme = {
-    name: '',
-    description: '',
-    facultyId: null as number | null
-  };
 
   tableColumns: string[] = ['name', 'description', 'facultyId', 'actions'];
 
@@ -144,48 +138,6 @@ export class StudyProgrammesManagement implements OnInit {
         },
         error: (err) => {
           console.error('Error loading faculties:', err);
-        }
-      });
-  }
-
-  toggleAddForm(): void {
-    this.showAddForm = !this.showAddForm;
-    if (!this.showAddForm) {
-      this.newProgramme = { name: '', description: '', facultyId: null };
-    } else {
-      if (this.faculties.length === 0) {
-        this.loadFaculties();
-      }
-    }
-  }
-
-  createProgramme(): void {
-    if (!this.newProgramme.name || !this.newProgramme.facultyId) {
-      alert('Name and Faculty are required');
-      return;
-    }
-
-    const createData = {
-      name: this.newProgramme.name,
-      description: this.newProgramme.description || null,
-      facultyId: this.newProgramme.facultyId,
-      coordinatorId: null
-    };
-
-    this.http.post(this.adminApiUrl, createData)
-      .subscribe({
-        next: () => {
-          this.loadStudyProgrammes();
-          this.showAddForm = false;
-          this.newProgramme = { name: '', description: '', facultyId: null };
-        },
-        error: (err) => {
-          console.error('Error creating study programme:', err);
-          if (err.status === 403) {
-            alert('You do not have permission to create study programmes.');
-          } else {
-            alert('Failed to create study programme. Status: ' + err.status);
-          }
         }
       });
   }
