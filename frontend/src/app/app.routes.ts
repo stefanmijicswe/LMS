@@ -12,7 +12,6 @@ import { RegisterComponent } from './pages/public/register/register';
 import { authGuard } from './auth.guard';
 import { Subjects } from './pages/dashboard/subjects/subjects';
 import { Activities } from './pages/dashboard/activities/activities';
-import { Syllabus } from './pages/dashboard/syllabus/syllabus';
 import { Enrolment } from './pages/dashboard/enrolment/enrolment';
 import { StaffManagement } from './pages/dashboard/staff-management/staff-management';
 import { Settings } from './pages/dashboard/settings/settings';
@@ -69,7 +68,6 @@ export const routes: Routes = [
             { path: 'activities', component: Activities, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
             { path: 'exam-registration', component: ExamRegistration, canActivate: [authGuard], data: { requiredRole: ['ROLE_STUDENT'] } },
 
-            { path: 'syllabus', component: Syllabus, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
             { path: 'students', component: Students, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
             { path: 'courses', component: Courses, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
             { path: 'grading', component: Grading, canActivate: [authGuard], data: { requiredRole: ['ROLE_PROFESSOR'] } },
