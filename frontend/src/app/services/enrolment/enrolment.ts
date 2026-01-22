@@ -6,6 +6,8 @@ export interface UserDTO {
   id: number;
   username: string;
   roles: string[];
+  yearNumber?: number;
+  studyProgrammeName?: string;
 }
 
 export interface EnrolStudentRequest {
@@ -31,6 +33,16 @@ export interface AddressDTO {
   };
 }
 
+export interface StudyProgrammeDTO {
+  id: number;
+  name: string;
+}
+
+export interface YearOfStudyOptionDTO {
+  id: number;
+  yearNumber: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -53,6 +65,14 @@ export class EnrolmentService {
 
   getAddresses(): Observable<AddressDTO[]> {
     return this.http.get<AddressDTO[]>('http://localhost:8081/public/addresses');
+  }
+
+  getStudyProgrammes(): Observable<StudyProgrammeDTO[]> {
+    return this.http.get<StudyProgrammeDTO[]>('http://localhost:8081/public/study-programmes');
+  }
+
+  getYearsForStudyProgramme(studyProgrammeId: number): Observable<YearOfStudyOptionDTO[]> {
+    return this.http.get<YearOfStudyOptionDTO[]>(`http://localhost:8081/public/study-programmes/${studyProgrammeId}/years`);
   }
 }
 

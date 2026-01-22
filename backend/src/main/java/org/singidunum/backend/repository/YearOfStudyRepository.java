@@ -6,4 +6,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface YearOfStudyRepository extends CrudRepository<YearOfStudy, Long>, PagingAndSortingRepository<YearOfStudy, Long>{
 
+    Iterable<YearOfStudy> findByStudyProgramme_IdOrderByYearNumberAsc(Long studyProgrammeId);
 }

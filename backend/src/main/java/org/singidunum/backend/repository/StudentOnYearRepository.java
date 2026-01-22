@@ -12,4 +12,5 @@ public interface StudentOnYearRepository extends CrudRepository<StudentOnYear, L
     Optional<StudentOnYear> findByStudentIdAndYearOfStudyId(Long studentId, Long yearOfStudyId);
     List<StudentOnYear> findByStudent_User_Id(Long userId);
     Optional<StudentOnYear> findFirstByStudent_User_IdOrderByEnrolmentDateDesc(Long userId);
+    boolean existsByRecordNumber(String recordNumber);
 }

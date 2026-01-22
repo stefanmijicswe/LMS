@@ -16,7 +16,7 @@ import {
 } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { EnrolmentService, UserDTO, EnrolStudentRequest } from '../../../services/enrolment/enrolment';
+import { EnrolmentService, UserDTO, EnrolStudentRequest, StudyProgrammeDTO, YearOfStudyOptionDTO } from '../../../services/enrolment/enrolment';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
 @Component({
@@ -39,7 +39,7 @@ import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 })
 export class Enrolment implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['username', 'actions'];
+  displayedColumns: string[] = ['username', 'yearNumber', 'studyProgrammeName', 'actions'];
   dataSource = new MatTableDataSource<UserDTO>([]);
   searchTerm: string = '';
   isLoading: boolean = false;
@@ -149,8 +149,23 @@ export class Enrolment implements OnInit, OnDestroy {
       </mat-form-field>
 
       <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Year of Study ID</mat-label>
-        <input matInput type="number" [(ngModel)]="form.yearOfStudyId" required>
+        <mat-label>Study Programme</mat-label>
+        <mat-select [(ngModel)]="selectedStudyProgrammeId" (selectionChange)="onStudyProgrammeChange()" required>
+          <mat-option [value]="null">Select Study Programme</mat-option>
+          <mat-option *ngFor="let programme of studyProgrammes" [value]="programme.id">
+            {{ programme.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Year of Study</mat-label>
+        <mat-select [(ngModel)]="form.yearOfStudyId" [disabled]="!selectedStudyProgrammeId || years.length === 0" required>
+          <mat-option [value]="0">Select Year</mat-option>
+          <mat-option *ngFor="let year of years" [value]="year.id">
+            Year {{ year.yearNumber }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" style="width: 100%;">
@@ -184,6 +199,9 @@ export class EnrolDialog implements OnInit {
   };
 
   addresses: any[] = [];
+  studyProgrammes: StudyProgrammeDTO[] = [];
+  years: YearOfStudyOptionDTO[] = [];
+  selectedStudyProgrammeId: number | null = null;
   isSubmitting: boolean = false;
 
   constructor(
@@ -198,6 +216,7 @@ export class EnrolDialog implements OnInit {
 
   ngOnInit() {
     this.loadAddresses();
+    this.loadStudyProgrammes();
   }
 
   loadAddresses() {
@@ -207,6 +226,33 @@ export class EnrolDialog implements OnInit {
       },
       error: (err) => {
         console.error('Error loading addresses:', err);
+      }
+    });
+  }
+
+  loadStudyProgrammes() {
+    this.enrolmentService.getStudyProgrammes().subscribe({
+      next: (data) => {
+        this.studyProgrammes = data;
+      },
+      error: (err) => {
+        console.error('Error loading study programmes:', err);
+      }
+    });
+  }
+
+  onStudyProgrammeChange() {
+    this.form.yearOfStudyId = 0;
+    this.years = [];
+    if (!this.selectedStudyProgrammeId) {
+      return;
+    }
+    this.enrolmentService.getYearsForStudyProgramme(this.selectedStudyProgrammeId).subscribe({
+      next: (data) => {
+        this.years = data;
+      },
+      error: (err) => {
+        console.error('Error loading years of study:', err);
       }
     });
   }
